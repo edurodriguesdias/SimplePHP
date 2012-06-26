@@ -6,6 +6,7 @@
 
    
 	#include global file
+	print_r($_SERVER);
 	include '../configs/global.php';
 
         
@@ -23,5 +24,5 @@
 	#apply keys
 	$content = $simplePHP->applyKeys($template,$keys);
 
-        echo $content;
+    echo $content;
 ?>
