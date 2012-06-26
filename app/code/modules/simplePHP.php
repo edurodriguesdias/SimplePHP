@@ -48,10 +48,15 @@ class simplePHP extends util {
         global $template;
 
         #load page configuration file
+        $page = '';
         if($controler != 'master') {
-             $page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
+            if(is_file('../view/' . $controler . '/' . $action . '.html')) {
+                $page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
+            }
         } else {
-             $page = file_get_contents(SIMPLEPHP_PATH.'/app/code/view/' . $controler . '/' . $action . '.html');
+            if(is_file(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/' . $action . '.html')) {
+                $page = file_get_contents(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/' . $action . '.html');    
+            }
         }
         
         #include and load controller
@@ -63,7 +68,7 @@ class simplePHP extends util {
         $keys = $control->$action();
 
         #app keys
-        $html = $this->applyKeys($page,$keys);
+        $html = ($page != '') ? $this->applyKeys($page,$keys) : '';
 
         #print the page
         echo $html;

@@ -22,5 +22,8 @@ class master extends simplePHP {
         public function _actionStart() {
          	return $this->keys;
         }
+        public function _actionLogin() {
+        	pre($_POST);
+        }
 }
 ?>
