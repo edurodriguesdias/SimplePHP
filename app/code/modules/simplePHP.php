@@ -41,28 +41,32 @@ class simplePHP extends util {
      * @return void
      * */
     public function loadPage($controler, $action) {
-        #load xml module
-        $xml = $this->loadModule('xml');
+        #init keys
+        $keys = array();
 
         #load global vars
         global $template;
 
         #load page configuration file
-        $page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
-        $page_data = $xml->xml2array($page);
-
-        #make page
-        $template = $this->makePage($page_data);
-        
+        if($controler != 'master') {
+             $page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
+        } else {
+             $page = file_get_contents(SIMPLEPHP_PATH.'/app/code/view/' . $controler . '/' . $action . '.html');
+        }
         
         #include and load controller
-        include '../control/' . $controler . '.php';
-                         
+        include SIMPLEPHP_PATH.'/app/code/control/' . $controler . '.php';
+        
+        #call the controller                        
         $control = new $controler();
         $action = "_action".  ucfirst($action);
-        
-        $control->$action();
-        
+        $keys = $control->$action();
+
+        #app keys
+        $html = $this->applyKeys($page,$keys);
+
+        #print the page
+        echo $html;
         
     }
 
@@ -122,43 +126,9 @@ class simplePHP extends util {
      * @return void
      * */
     public function redirect($link) {
-
         header('location:' . $link);
         exit;
     }
-
-    public function makePage($page_data) {
-
-
-        $html = '';
-        foreach ($page_data as $node => $content) {
-            $html .= $this->makeContent($node);
-            if (is_array($content)) {
-                $html .= $this->makePage($content);
-            } else {
-                $html .=$this->makeContent($content);
-            }
-        }
-
-        return $html;
-    }
-
-    private function makeContent($type) {
-
-        
-
-        switch ($type) {
-            case 'root' :
-                $content = $this->html->html();
-            break;
-            case 'header' :
-                $content = $this->html->header();
-            break;
-        }
-
-        return $content;
-    }
-
 }
 
 ?>
