@@ -20,7 +20,7 @@
 		}
 		
 
-                /**
+		/**
 		*  Create a html select box
 		* @param <boolean> $full Define if show the full tag or only the values
 		* @param <array> $data

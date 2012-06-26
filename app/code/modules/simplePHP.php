@@ -48,7 +48,7 @@ class simplePHP extends util {
         global $template;
 
         #load page configuration file
-        $page = file_get_contents('../view/' . $controler . '/' . $action . '.xml');
+        $page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
         $page_data = $xml->xml2array($page);
 
         #make page
@@ -99,7 +99,7 @@ class simplePHP extends util {
      * */
     public function loadModule($moduleName) {
         #include and load module
-        include '../modules/' . $moduleName . '.php';
+        include SIMPLEPHP_PATH.'/app/code/modules/' . $moduleName . '.php';
         return new $moduleName();
     }
 

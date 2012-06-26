@@ -4,11 +4,8 @@
 	 * @author Rafael Franco <rafaelfranco@me.com>
 	 */
 
-   
 	#include global file
-	print_r($_SERVER);
-	include '../configs/global.php';
-
+	include SIMPLEPHP_PATH.'app/code/configs/global.php';
         
 	#get the controler
 	$url_parameter[1] = $simplePHP->getParameter(1);
