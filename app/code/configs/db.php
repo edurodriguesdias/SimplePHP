@@ -8,12 +8,12 @@
 
 #development
 if($_SERVER['HTTP_HOST'] == DEVEVOPMENT_URL) {
-         $dsn = array(
+    $dsn = array(
                 'phptype'  => 'mysql',
                 'username' => 'root',
                 'password' => '',
                 'hostspec' => '127.0.0.1',
-                'database' => 'shopply_com_br',
+                'database' => 'fashionera2',
             );
 }
 
@@ -24,7 +24,7 @@ if($_SERVER['HTTP_HOST'] == TEST_URL) {
                 'username' => 'root',
                 'password' => '',
                 'hostspec' => '127.0.0.1',
-                'database' => 'shopply_com_br',
+                'database' => 'fashionera2',
             );
 }
 
@@ -35,7 +35,7 @@ if($_SERVER['HTTP_HOST'] == PRODUCTION_URL) {
 	                'username' => 'root',
 	                'password' => '',
 	                'hostspec' => '127.0.0.1',
-	                'database' => 'shopply_com_br',
+	                'database' => 'fashionera2',
 	            );
 } 
 

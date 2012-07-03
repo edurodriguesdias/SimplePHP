@@ -16,9 +16,6 @@
 	define('MASTER_LOGIN','admin');
 	define('MASTER_PASSWD','979899');
 
-	#start the session
-	session_start();
-
 	#load php libraries 
 	#this is optional, use only if this server dont have the MDB2 installed
 	include_once SIMPLEPHP_PATH.'/app/code/libs/MDB2.php';

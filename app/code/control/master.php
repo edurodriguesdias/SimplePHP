@@ -14,16 +14,29 @@
  * @author Rafael Franco
  * */
 class master extends simplePHP {
+        public $session;
+
         public function __construct() {
          	global $keys;
+                //load modules
+                $this->session = $this->loadModule('session');
+
          	$this->keys['header'] = file_get_contents(SIMPLEPHP_PATH.'/app/code/view/master/header.php');
             
         }
         public function _actionStart() {
          	return $this->keys;
         }
+        /**
+         * Do login on Simple PHP Master area
+         * */
         public function _actionLogin() {
-        	pre($_POST);
+        	if((MASTER_LOGIN == $_POST['login']) && (MASTER_PASSWD == $_POST['pass'])) {
+                        $this->session->add('master','logged');
+                        pr($this->session->values());
+                } else {
+                        $this->showError('Login e senha incorretos','/master');
+                }
         }
 }
 ?>

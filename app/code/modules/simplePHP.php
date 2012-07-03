@@ -14,13 +14,21 @@
  * @author Rafael Franco
  * */
 class simplePHP extends util {
+   
+    public $version = '0.0';
+    private static $controler;
+    private static $action;
 
-    private $html;
-
-    #construct
-
+    #construct simple php object
     public function __construct() {
-        $this->html = $this->loadModule('html');
+        #get the controler
+        $url_parameter[1] = $this->getParameter(1);
+        self::$controler  = ($url_parameter[1] == '') ? 'hotsite' : $url_parameter[1] ;
+
+        #get the action
+        $url_parameter[2] = $this->getParameter(2);
+        self::$action = ($url_parameter[2] == '') ? 'start' : $url_parameter[2] ;
+
     }
 
     /**
@@ -40,7 +48,11 @@ class simplePHP extends util {
      * @param <string> $action
      * @return void
      * */
-    public function loadPage($controler, $action) {
+    public function loadPage() {
+        #init vars 
+        $controler =  self::$controler;
+        $action = self::$action;
+
         #init keys
         $keys = array();
 
@@ -60,7 +72,11 @@ class simplePHP extends util {
         }
         
         #include and load controller
-        include SIMPLEPHP_PATH.'/app/code/control/' . $controler . '.php';
+        if($controler == 'master') {
+            include SIMPLEPHP_PATH.'app/code/control/' . $controler . '.php';
+        } else {
+            include '../control/' . $controler . '.php';
+        }
         
         #call the controller                        
         $control = new $controler();
@@ -107,9 +123,10 @@ class simplePHP extends util {
      * @return object
      * */
     public function loadModule($moduleName) {
+        global $action;
         #include and load module
-        include SIMPLEPHP_PATH.'/app/code/modules/' . $moduleName . '.php';
-        return new $moduleName();
+        include SIMPLEPHP_PATH.'app/code/modules/' . $moduleName . '.php';
+        return new $moduleName(self::$controler,self::$action);
     }
 
     /**
@@ -120,9 +137,24 @@ class simplePHP extends util {
      * */
     public function sucess($message, $url) {
         global $template;
-        $template = file_get_contents('../app/view/' . $this->getParameter(1) . '/sucess.html');
+        $template = file_get_contents(SIMPLEPHP_PATH.'/app/code/view/master/sucess.html');
         $this->setKey('message', $message);
         $this->setKey('url', $url);
+    }
+
+
+    /**
+     * showError function 
+     * @param <string> $message
+     * @param <string> $url
+     * @return void
+     * */
+    public function showError($message, $url,$buttonMessage = 'Voltar') {
+        global $template;
+        $template = file_get_contents(SIMPLEPHP_PATH.'/app/code/view/master/error.html');
+        $this->setKey('message', $message);
+        $this->setKey('url', $url);
+        $this->setKey('buttonMessage', $buttonMessage);
     }
 
     /**
