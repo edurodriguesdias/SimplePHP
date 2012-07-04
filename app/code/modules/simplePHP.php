@@ -122,11 +122,16 @@ class simplePHP extends util {
      *
      * @return object
      * */
-    public function loadModule($moduleName) {
+    public function loadModule($moduleName,$param='') {
         global $action;
         #include and load module
         include SIMPLEPHP_PATH.'app/code/modules/' . $moduleName . '.php';
-        return new $moduleName(self::$controler,self::$action);
+        if($param == '') {
+            return new $moduleName(self::$controler,self::$action);
+        } else {
+            return new $moduleName($param);
+        }
+        
     }
 
     /**

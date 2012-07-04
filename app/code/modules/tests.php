@@ -78,6 +78,12 @@
      				case 'call':
 	     				$js .= $act['target']."();";
 	     				break;
+	     			case 'select' :
+	     				$js .= "$(\"#".$act['target']." option[value='".$act['value']."']\").attr(\"selected\", true);";
+	     				break;
+	     			case 'check':
+	     				$js .= "$('#".$act['target']."').attr('checked',true);";
+	     				break;	
 	     			default:
 	     				# code...
 	     				break;
