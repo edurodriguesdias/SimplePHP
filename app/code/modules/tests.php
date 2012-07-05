@@ -83,7 +83,10 @@
 	     				break;
 	     			case 'check':
 	     				$js .= "$('#".$act['target']."').attr('checked',true);";
-	     				break;	
+	     				break;
+	     			case 'set':
+	     				$js .= "$('#".$act['target']."').attr('".$act['key']."','".$act['value']."');";
+	     				break;		
 	     			default:
 	     				# code...
 	     				break;
