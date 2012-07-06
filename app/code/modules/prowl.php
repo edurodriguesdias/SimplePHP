@@ -23,18 +23,10 @@
 		{
                     $this->prowUrl = 'https://api.prowlapp.com/publicapi/add'; 
                     $this->apiKey = '624cfa37930b048f0cdb1a7df022b90b73655ad8';
-                    $this->application = 'FASHIONERA';
+                    $this->application = 'Cadastro Speedy';
 		}
                 public function send($event,$description,$priority = 0,$redirect='') 
                 {
-                   
-                   #set and control interval     
-                   $model = new model();
-                   $res = $model->getData('prowl','UNIX_TIMESTAMP(last) as last');
-                   $lastProwl = $res[0]['last'];
-                   $interval = 300; #seconds 5minutes
-                   
-                   if(time() > ($lastProwl+$interval)) {
                         $vars['apikey'] = $this->apiKey;
                         $vars['application'] = $this->application;
 
@@ -55,9 +47,7 @@
 
                         curl_close ($ch);
                         
-                        #update prow sended
-                        $model->alterData('prowl', array('last'=> time()));
-                   }
-                }             
+                      
+                   }           
         }
 ?>
