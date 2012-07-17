@@ -49,6 +49,7 @@ class simplePHP extends util {
      * @return void
      * */
     public function loadPage() {
+        
         #init vars 
         $controler =  self::$controler;
         $action = self::$action;
@@ -176,6 +177,21 @@ class simplePHP extends util {
         header('location:' . $link);
         exit;
     }
+
+    /**
+     * includeHTML function, import html file to the current page
+     * @return array
+     * */
+    public function includeHTML($path) {
+        $return = "<!-- Start: $path -->
+";
+        $return .= file_get_contents($path);
+        $return .= "
+		<!-- End: $path -->";
+        #return value keys to replace in html
+        return $return;
+    }   
+            
 }
 
 ?>
