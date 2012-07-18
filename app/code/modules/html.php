@@ -150,6 +150,28 @@
 		{
 			return $this->tag('span',$content,$attributes);
 		}
+
+		/**
+		 * ul function, create an ul
+		 *
+		 * @return string 
+		 * 
+		 **/
+		public function ul($content='',$attributes='')
+		{
+			return $this->tag('ul',$content,$attributes);
+		}
+
+		/**
+		 * li function, create an li
+		 *
+		 * @return string 
+		 * 
+		 **/
+		public function li($content='',$attributes='')
+		{
+			return $this->tag('li',$content,$attributes);
+		}
 		
 		/**
 		 * a function, create an a
