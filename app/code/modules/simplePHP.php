@@ -67,8 +67,11 @@ class simplePHP extends util {
         if($controler != 'master') {
             if(is_file('../view/' . $controler . '/' . $action . '.html')) {
                 	$page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
-            	} else {  
-					$page = file_get_contents('../view/' . $controler . '/default.html');		          
+            	} else {   
+					#if have an default template, load them
+	 				if(is_file('../view/' . $controler . '/default.html')) {
+						$page = file_get_contents('../view/' . $controler . '/default.html');  
+					}  	          
 				}
         } else {
             if(is_file(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/' . $action . '.html')) {
