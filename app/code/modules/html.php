@@ -72,8 +72,10 @@
 		private function tag($tag,$content='',$attributes='')
 		{
 			$params = '';
-			foreach ($attributes as $k => $v) {
-				$params .= $k.'="'.$v.'" ';
+			if(is_array($attributes)) {
+				foreach ($attributes as $k => $v) {
+					$params .= $k.'="'.$v.'" ';
+				}
 			}
 			if(in_array($tag,array('img','input'))) {
 				$return =   "<$tag $params />";
@@ -128,6 +130,37 @@
 		public function b($content='',$attributes='')
 		{
 			return $this->tag('b',$content,$attributes);
+		} 
+		
+		/**
+		 * h1 function, create an h1
+		 *
+		 * @return string 
+		 * 
+		 **/
+		public function h1($content='',$attributes='')
+		{
+			return $this->tag('h1',$content,$attributes);
+		}
+		/**
+		 * h2 function, create an h2
+		 *
+		 * @return string 
+		 * 
+		 **/
+		public function h2($content='',$attributes='')
+		{
+			return $this->tag('h2',$content,$attributes);
+		}
+		/**
+		 * h3 function, create an h3
+		 *
+		 * @return string 
+		 * 
+		 **/
+		public function h3($content='',$attributes='')
+		{
+			return $this->tag('h3',$content,$attributes);
 		}
 		/**
 		 * p function, create an p
@@ -241,6 +274,17 @@
 			$attributes['value'] = $value;
 			$attributes['type'] = $type;
 			return $this->tag('input','',$attributes);
+		} 
+		
+		/**
+		* input function, create an input
+		*
+		* @return string 
+		* 
+		**/
+		public function textArea($value,$attributes='')
+		{	
+			return $this->tag('textArea', $value,$attributes);
 		}
 		
 
