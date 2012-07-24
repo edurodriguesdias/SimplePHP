@@ -22,11 +22,11 @@ class simplePHP extends util {
     #construct simple php object
     public function __construct() {
         #get the controler
-        $url_parameter[1] = $this->getParameter(1);
+        $url_parameter[1] = str_replace('-', '', $this->getParameter(1));
         self::$controler  = ($url_parameter[1] == '') ? 'hotsite' : $url_parameter[1] ;
 
         #get the action
-        $url_parameter[2] = $this->getParameter(2);
+        $url_parameter[2] = str_replace('-', '', $this->getParameter(2));
         self::$action = ($url_parameter[2] == '') ? 'start' : $url_parameter[2] ;
 
     }
@@ -56,6 +56,8 @@ class simplePHP extends util {
 
         #init keys
         $keys = array();
+        $keys['action'] = self::$action;
+		$keys['controler'] = $controler; 
 
         #load global vars
         global $template;
@@ -64,14 +66,18 @@ class simplePHP extends util {
         $page = '';
         if($controler != 'master') {
             if(is_file('../view/' . $controler . '/' . $action . '.html')) {
-                $page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
-            }
+                	$page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
+            	} else {  
+					$page = file_get_contents('../view/' . $controler . '/default.html');		          
+				}
         } else {
             if(is_file(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/' . $action . '.html')) {
                 $page = file_get_contents(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/' . $action . '.html');    
-            }
-        }
-        
+            } else {
+	            $page = file_get_contents(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/default.html');    
+			}   
+        }       
+
         #include and load controller
         if($controler == 'master') {
             include SIMPLEPHP_PATH.'app/code/control/' . $controler . '.php';
@@ -81,9 +87,13 @@ class simplePHP extends util {
         
         #call the controller                        
         $control = new $controler();
-        $action = "_action".  ucfirst($action);
-        $keys = $control->$action();
-
+        $action = "_action".  ucfirst($action);   
+		if(method_exists($control,$action)) {
+			$keys = $control->$action();
+		} else {
+			$keys = $control->_actionStart();
+		}
+	   
         #app keys
         $html = ($page != '') ? $this->applyKeys($page,$keys) : '';
 
@@ -125,13 +135,16 @@ class simplePHP extends util {
      * */
     public function loadModule($moduleName,$param='',$local=false) {
         global $action;
-        #include and load module
-        if($local) {
-            include '../control/' . $moduleName . '.php';
-        } else {
-            include SIMPLEPHP_PATH.'app/code/modules/' . $moduleName . '.php';    
+
+        ##test if module is not loaded
+        if(!in_array($moduleName, get_declared_classes())) {
+            #include and load module
+            if($local) {
+                include '../control/' . $moduleName . '.php';
+            } else {
+                include SIMPLEPHP_PATH.'app/code/modules/' . $moduleName . '.php';    
+            }
         }
-        
         if($param == '') {
             return new $moduleName(self::$controler,self::$action);
         } else {

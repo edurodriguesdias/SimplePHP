@@ -23,7 +23,7 @@
 		{
                     $this->prowUrl = 'https://api.prowlapp.com/publicapi/add'; 
                     $this->apiKey = '624cfa37930b048f0cdb1a7df022b90b73655ad8';
-                    $this->application = 'Cadastro Speedy';
+                    $this->application = 'Fashionera';
 		}
                 public function send($event,$description,$priority = 0,$redirect='') 
                 {
@@ -33,8 +33,16 @@
                         $vars['priority'] = $priority;
                         $vars['url'] = $redirect;
 
+                        if(is_array($description)) {
+                            foreach ($description as $key => $value) {
+                                $desc .= $key ." = " . $value ."
+                                ";
+                            }
+                        } else {
+                            $desc = $description;
+                        }
                         $vars['event'] = $event;
-                        $vars['description'] = $description;
+                        $vars['description'] = $desc;
 
                         $ch = curl_init($this->prowUrl);
                         curl_setopt($ch, CURLOPT_HEADER, 0);
