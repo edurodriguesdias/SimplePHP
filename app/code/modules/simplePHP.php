@@ -200,8 +200,10 @@ class simplePHP extends util {
      * */
     public function includeHTML($path) {
         $return = "<!-- Start: $path -->
-";
-        $return .= file_get_contents($path);
+";                        
+		if(is_file($path)) {
+			 $return .= file_get_contents($path);    
+		}
         $return .= "
 		<!-- End: $path -->";
         #return value keys to replace in html

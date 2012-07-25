@@ -21,7 +21,7 @@
 		
 
 		/**
-		*  Create a html select box
+		*  Create a html   box
 		* @param <boolean> $full Define if show the full tag or only the values
 		* @param <array> $data
 		* @param <string> $name
@@ -38,7 +38,8 @@
 			$return = '';
                         if($selectOption == 1) {
 				$return .= "<option value=\"0\">$selectLabel</option>\n";
-			}
+			}   
+
 
 			if(is_array($data)){
 				foreach($data as $id => $value) {
@@ -59,7 +60,7 @@
 					} else {
 						$return = "<select class=\"$cssclass\" name=\"$name\" $actions  id=\"$name\" >$return</select>\n";
 					}
-				}
+				}   
 				return  $return;
 		}
 		
