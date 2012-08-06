@@ -208,8 +208,7 @@ class simplePHP extends util {
 		<!-- End: $path -->";
         #return value keys to replace in html
         return $return;
-    }   
-            
+    }  
 }
 
 ?>

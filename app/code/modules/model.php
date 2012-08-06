@@ -192,7 +192,7 @@ class model {
                         }
                 }
                 $sql .= ");";
-
+                $sql = utf8_decode($sql); 
                 if ($this->debug == 1) {
                         echo "<br><b>$sql</b><br>";
                 }        
@@ -241,7 +241,7 @@ class model {
 	                        }
 	                }
 	                $sql .= ");";
-
+					$sql = utf8_decode($sql);
 	                if ($this->debug == 1) {
 	                        echo "<br><b>$sql</b><br>";
 	                }        
