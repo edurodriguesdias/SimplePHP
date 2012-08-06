@@ -51,7 +51,21 @@
 		
 		public function getAppUrl() {
 			return 'http://'.$_SERVER['HTTP_HOST'].'/';
+		}   
+		
+		public function utf8decodeArray($array) {
+			foreach($array as $key => $value) {
+				$return[$key] = utf8_decode($value);
+			}
+			return $return;
+		} 
+		public function utf8encodeArray($array) {
+			foreach($array as $key => $value) {
+				$return[$key] = utf8_encode($value);
+			}
+			return $return;
 		}
+		              
 	}
 	
 	#developer functions
