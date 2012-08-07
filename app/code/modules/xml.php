@@ -142,7 +142,7 @@
 					                            if(is_array($value)) {
 					                                    $return .="<$key>".$this->array2xml($value,false)."</$key>";
 					                            } else {
-					                                  $return .="<$key>".utf8_encode($value)."</$key>";
+					                                  $return .="<$key>".($value)."</$key>";
 					                            }
 					                     }
 					                       $return .="</node>";
