@@ -239,11 +239,11 @@
 		* @return string 
 		* 
 		**/
-		public function table($content,$attributes='',$striped=false,$color1='#f8f7ff',$color2='#f6f6f6') 
+		public function table($content,$attributes=array('class'=>'contentTable'),$striped=false,$color1='#f8f7ff',$color2='#f6f6f6') 
 		{
 			 $i = 0;
  		     foreach ($content as $row) {
-				$htmlCol = '';
+				$htmlCol = '';            
 				$x = 0;
 				foreach ($row as $col) {
 					$htmlCol .= $this->tag('td',$col,array('id'=>$attributes['id'].$i.'_col_'.$x));
@@ -258,6 +258,10 @@
 					$htmlRows .= $this->tag('tr',$htmlCol,array('id'=>$attributes['id'].'_row_'.$i,'bgcolor'=>$color));
 				} else {
 					$htmlRows .= $this->tag('tr',$htmlCol,array('id'=>$attributes['id'].'_row_'.$i));
+				}  
+				
+				if($i == 0) {
+				   $htmlRows =  $this->tag('thead', $htmlRows );             
 				}
 				$i++;
  		     }
