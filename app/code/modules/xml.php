@@ -130,7 +130,7 @@
 					            */
 					           public function array2xml($data,$head = true) {
 					                if($head) {
-					                    $return = '<?xml version="1.0" encode=""?><root>';
+					                    $return = '<?xml version="1.0" encoding="UTF-8"?><root>';
 					                } else {
 					                    $return ='';
 					                }
@@ -142,7 +142,7 @@
 					                            if(is_array($value)) {
 					                                    $return .="<$key>".$this->array2xml($value,false)."</$key>";
 					                            } else {
-					                                  $return .="<$key>".($value)."</$key>";
+					                                  $return .="<$key>".utf8_encode($value)."</$key>";
 					                            }
 					                     }
 					                       $return .="</node>";
