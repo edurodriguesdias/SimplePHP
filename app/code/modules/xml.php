@@ -130,7 +130,7 @@
 					            */
 					           public function array2xml($data,$head = true) {
 					                if($head) {
-					                    $return = '<?xml version="1.0" encoding="UTF-8"?><root>';
+					                    $return = '<?xml version="1.0" ?><root>';
 					                } else {
 					                    $return ='';
 					                }
