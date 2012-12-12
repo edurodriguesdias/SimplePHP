@@ -37,7 +37,12 @@
 	                     $values['class'] = 'stepper';
 	                     $values['onclick'] = $onclick."($x, '$moreParam')";
 	                     #current Step
-	                     $i = ($active == $x) ? $this->b($x) : $x;
+	                     if($active == $x) {
+	                     	 $values['class'] = 'stepper stepper-active';
+	                     	$i = $this->b($x); 
+	                     } else {
+	                     	$i = $x;
+	                     }
 	                     $return .= $this->span($i,$values);
 	             }
 	         }
