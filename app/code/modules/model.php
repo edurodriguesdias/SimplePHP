@@ -320,6 +320,10 @@ class model {
                                 }
                         }
                 }
+                if ($this->debug == 1) {
+                        echo "<br><b>$sql</b><br>";
+                }
+
                 $res = $mdb2->query($sql);
                 if (@$res->result != 1) {
                         $arq = fopen("../logs/query-remove-errors.txt", 'a+');
