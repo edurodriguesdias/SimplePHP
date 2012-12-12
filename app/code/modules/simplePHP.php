@@ -61,13 +61,26 @@ class simplePHP extends util {
 
         #load global vars
         global $template;
+     #include and load controller
+        if($controler == 'master') {
+            include SIMPLEPHP_PATH.'app/code/control/' . $controler . '.php';
+        } else {
+
+            if(file_exists('../control/' . $controler . '.php')) {
+                include '../control/' . $controler . '.php';    
+            } else {
+                include '../control/hotsite.php';  
+                $action = $controler ;
+                $controler = 'hotsite';
+            }
+        }
 
         #load page configuration file
         $page = '';
         if($controler != 'master') {
             if(is_file('../view/' . $controler . '/' . $action . '.html')) {
                 	$page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
-            	} else {   
+                } else {   
 					#if have an default template, load them
 	 				if(is_file('../view/' . $controler . '/default.html')) {
 						$page = file_get_contents('../view/' . $controler . '/default.html');  
@@ -81,16 +94,13 @@ class simplePHP extends util {
 			}   
         }       
 
-        #include and load controller
-        if($controler == 'master') {
-            include SIMPLEPHP_PATH.'app/code/control/' . $controler . '.php';
-        } else {
-            include '../control/' . $controler . '.php';
-        }
         
+        
+
         #call the controller                        
         $control = new $controler();
-        $action = "_action".  ucfirst($action);   
+        $action = "_action".  ucfirst($action); 
+        $keys = array();
 		if(method_exists($control,$action)) {
 			$keys = $control->$action();
 		} else {
@@ -98,10 +108,13 @@ class simplePHP extends util {
 		}
 	   
         #app keys
-        $html = ($page != '') ? $this->applyKeys($page,$keys) : '';
+
+        $html = ($page != '') ? $this->applyKeys($page,$keys) : 'Template not found or empty';
 
         #print the page
         echo $html;
+        
+        
         
     }
 
