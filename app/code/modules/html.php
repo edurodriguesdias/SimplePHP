@@ -239,7 +239,7 @@
 		* @return string 
 		* 
 		**/
-		public function table($content,$attributes=array('class'=>'contentTable'),$striped=false,$color1='#f8f7ff',$color2='#f6f6f6') 
+		public function table($content,$attributes=array('class'=>'contentTable'),$striped=false,$color1='#f8f7ff',$color2='#f6f6f6',$full = true) 
 		{
 			 $i = 0;
  		     foreach ($content as $row) {
@@ -265,7 +265,13 @@
 				}
 				$i++;
  		     }
-			return $this->tag('table',$htmlRows,$attributes);
+ 		    if($full) {
+ 		    	$return = $this->tag('table',$htmlRows,$attributes);	
+ 		    } else {
+ 		    	$return = $htmlRows;
+ 		    }
+ 		    return $return;
+			
 		}
 		
 		/**
