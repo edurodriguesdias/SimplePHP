@@ -21,6 +21,7 @@ class simplePHP extends util {
 
     #construct simple php object
     public function __construct() {
+
         #get the controler
         $url_parameter[1] = str_replace('-', '', $this->getParameter(1));
         self::$controler  = ($url_parameter[1] == '') ? 'hotsite' : $url_parameter[1] ;
@@ -39,7 +40,10 @@ class simplePHP extends util {
     public function getParameter($position) {
         #get the url and explode to get positions
         $url = explode('/', urldecode($_SERVER['REQUEST_URI']));
-        return (count($url) > $position) ? $url[$position] : '';
+
+        $return = (count($url) > $position) ? $url[$position] : '';
+        $return = ($return[0] == '?') ? '' : $return;
+        return $return;
     }
 
     /**
@@ -101,6 +105,7 @@ class simplePHP extends util {
         $control = new $controler();
         $action = "_action".  ucfirst($action); 
         $keys = array();
+
 		if(method_exists($control,$action)) {
 			$keys = $control->$action();
 		} else {
