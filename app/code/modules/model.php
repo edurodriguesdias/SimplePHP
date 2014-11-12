@@ -441,6 +441,29 @@ class model {
             $res[0]['result'] = 'empty';
         }
         return $res;
+    }
+
+    /**
+    * addColumns Method
+    * @param @table string
+    * @param @column string
+    * @param @type string
+    * @return void 
+    **/
+    public function addColumn($table,$column,$type) {
+        global $mdb2;
+        $sql = "ALTER TABLE $table ADD $column $type;";
+
+        if ($this->debug == 1) {
+            echo "<br><b>$sql</b><br>";
+        }
+                
+        $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
+
+        if (count($res) == 0) {
+            $res[0]['result'] = 'empty';
+        }
+        return $res;
 
     }
 }
