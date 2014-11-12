@@ -365,63 +365,84 @@ class model {
         }
 
 
-        /**
-         * Update mysql data
-         * @global  $mdb2
-         * @param <string> $table
-         * @param <array> $data
-         * @param <array> $filter
-         * @return <type>
-         */
-        public function alterData($table, $data, $filter) {
-                global $mdb2;
+    /**
+     * Update mysql data
+     * @global  $mdb2
+     * @param <string> $table
+     * @param <array> $data
+     * @param <array> $filter
+     * @return <type>
+     */
+    public function alterData($table, $data, $filter) {
+            global $mdb2;
 
-                $sql = "UPDATE $table ";
-                extract($data);
-                $sql .= ' SET';
-                foreach ($data as $key => $value) {
-                        # $value = str_replace("'",'"',$value);
-                        $value = addslashes($value);
-                        if (is_string($value)) {
-                                $sql .= " $key = '$value' ,";
-                        } else {
-                                if ($value) {
-                                        $sql .= " $key = $value ,";
-                                } else {
-                                        $sql .= " $key = '' ,";
-                                }
-                        }
-                }
+            $sql = "UPDATE $table ";
+            extract($data);
+            $sql .= ' SET';
+            foreach ($data as $key => $value) {
+                    # $value = str_replace("'",'"',$value);
+                    $value = addslashes($value);
+                    if (is_string($value)) {
+                            $sql .= " $key = '$value' ,";
+                    } else {
+                            if ($value) {
+                                    $sql .= " $key = $value ,";
+                            } else {
+                                    $sql .= " $key = '' ,";
+                            }
+                    }
+            }
 
-                $sql = substr($sql, 0, strlen($sql) - 1);
+            $sql = substr($sql, 0, strlen($sql) - 1);
 
-                $sql .= "WHERE 1=1 ";
-                if (is_array($filter)) {
-                        foreach ($filter as $key => $value) {
-                                if (is_string($value)) {
-                                        $sql .= "AND $key = '$value' ";
-                                } else {
-                                        $sql .= "AND $key = $value ";
-                                }
-                        }
-                }
+            $sql .= "WHERE 1=1 ";
+            if (is_array($filter)) {
+                    foreach ($filter as $key => $value) {
+                            if (is_string($value)) {
+                                    $sql .= "AND $key = '$value' ";
+                            } else {
+                                    $sql .= "AND $key = $value ";
+                            }
+                    }
+            }
 
 
-                $res = $mdb2->query($sql);
-                
-                if ($this->debug == 1) {
-                        echo "<br><b>$sql</b><br>";
-                }  
-                if (@$res->result != 1) {
-                        $arq = fopen("../logs/query-update-errors.txt", 'a+');
-                        fwrite($arq, $sql . " - " . @date('d/m/Y h:i:s') . '
-						');
-                        die('Error not updated data - See log file');
-                } else {
-                        return true;
-                }
+            $res = $mdb2->query($sql);
+            
+            if ($this->debug == 1) {
+                    echo "<br><b>$sql</b><br>";
+            }  
+            if (@$res->result != 1) {
+                    $arq = fopen("../logs/query-update-errors.txt", 'a+');
+                    fwrite($arq, $sql . " - " . @date('d/m/Y h:i:s') . '
+					');
+                    die('Error not updated data - See log file');
+            } else {
+                    return true;
+            }
+    }
+
+    /**
+    * getColumns Method
+    * @param @column string
+    * @return array 
+    **/
+    public function getColumns($column) {
+        global $mdb2;
+
+        $sql = "SHOW columns FROM $column ";
+        if ($this->debug == 1) {
+            echo "<br><b>$sql</b><br>";
         }
+                
+        $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
 
+        if (count($res) == 0) {
+            $res[0]['result'] = 'empty';
+        }
+        return $res;
+
+    }
 }
 
 ?>
