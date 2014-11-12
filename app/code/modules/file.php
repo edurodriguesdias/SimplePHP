@@ -31,6 +31,13 @@
 			fclose($arq);
 			return $name.".".$extension;
 		}
+
+		public function save($content,$to) {
+			$arq = fopen($to,'w');
+			fwrite($arq,$content);
+			fclose($arq);
+			return $to;
+		}
 		
 		public function uploadFile($file,$path) {
 		
