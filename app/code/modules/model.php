@@ -332,7 +332,12 @@ class model {
            
 
             $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
-            return $res[0]['qtd'];
+            if(is_array($res)) {
+                return $res[0]['qtd'];    
+            } else {
+                return 0;
+            }
+            
     }
 
     /**
