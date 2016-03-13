@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+	</head>
+<body>
+	<h1>Simplephp - Configurador de tabela</h1>
+	<form action="/master/addTable" method="post">
+		<h3>Entidade: [#modulo#]</h3>
+		<section id="campos"></section>
+		<input type="button" value="Novo campo" id="novoCampo" />
+		<input type="submit" value="Gerar tabela" />
+
+	</form>
+
+	<section style="display:none">
+	<div id="campo">
+		<input type="text" name="name[]" placeholder="Nome" />
+		<select name="tipo[]" >
+			<option>Varchar (255)</option>
+			<option>INT</option>
+			<option>Text</option>
+			<option>Data</option>
+			<option>Timestamp</option>
+		</select>
+	</div>
+	</section>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#novoCampo').click(function(){
+				campo = $('#campo').clone();
+				$('#campos').append(campo)
+			})
+		})
+
+	</script>
+
+</body>
+</html>
