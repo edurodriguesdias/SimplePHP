@@ -2,8 +2,8 @@
 	/**
 	 * Project: SimplePHP Framework
 	 * 
-	 * @copyright Rafael Franco  www.rfranco.org
-	 * @author Rafael Franco <rafaelfranco@me.com>
+	 * @copyright Rafael Franco  www.alphacode.com.br
+	 * @author Rafael Franco <simplephp@alphacode.com.br>
 	 */
 
 	/**

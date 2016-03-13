@@ -2,7 +2,7 @@
    	/**
 	 * Project: SimplePHP Framework
 	 * 
-	 * @author Rafael Franco <rafaelfranco@me.com>
+	 * @author Rafael Franco <www.alphacode.com.br>
 	 */
 
 	/**

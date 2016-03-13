@@ -3,7 +3,7 @@
 	 * Project: SimplePHP Framework
 	 * 
 	 * @copyright Alphacode  www.alphacode.com.br
-	 * @author Rafael Franco <rafael@Alphacode.com.br>
+	 * @author Rafael Franco <simplephp@alphacode.com.br>
 	 */
 
 	/**
