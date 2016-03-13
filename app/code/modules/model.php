@@ -495,6 +495,42 @@ class model {
     }
 
     /**
+    * Cria uma tabela
+    * @param @table string
+    * @param @column string
+    * @param @type string
+    * @return void 
+    **/
+    public function addTable($name,$columns) {
+        
+        global $mdb2;
+        
+        $sql = "CREATE TABLE `$name` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `id_cliente` int(11) NOT NULL,
+                  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                  `agendamento` int(11) NOT NULL,
+                  `status` varchar(255) NOT NULL,
+                  `tipo` varchar(255) NOT NULL,
+                  `conta_id` int(11) NOT NULL,
+                  `usuario_id` int(11) NOT NULL,
+                  `ip` varchar(255) NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;";
+
+        if ($this->debug == 1) {
+            echo "<br><b>$sql</b><br>";
+        }
+                
+        $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
+
+        if (count($res) == 0) {
+            $res[0]['result'] = 'empty';
+        }
+        return $res;
+    }
+
+    /**
     * Roda um sql generico
     * @param @sql string
     * @return boolean 
@@ -525,6 +561,9 @@ class model {
         $dados = $this->getData($tabela,'*',array($chave=>$id));
         return $dados[0];
     }
+
+
+
 }
 
 ?>
