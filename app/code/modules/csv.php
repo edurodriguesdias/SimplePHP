@@ -1,6 +1,6 @@
 <?php
    	/**
-	 * Project: SIMPLE PHP - Framework 
+	 * Project: SimplePHP Framework
 	 * 
 	 * @author Rafael Franco <rafaelfranco@me.com>
 	 */

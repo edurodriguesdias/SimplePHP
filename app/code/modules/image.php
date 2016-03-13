@@ -1,9 +1,9 @@
 <?php
 	/**
-	 * Project: SIMPLE PHP - Framework 
+	 * Project: SimplePHP Framework
 	 * 
-	 * @copyright RFTI  www.rfti.com.br
-	 * @author Rafael Franco <rafael@rfti.com.br>
+	 * @copyright Alphacode  www.alphacode.com.br
+	 * @author Rafael Franco <rafael@Alphacode.com.br>
 	 */
 
 	/**
