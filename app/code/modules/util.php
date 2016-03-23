@@ -150,4 +150,8 @@
 		return $year_diff;
 	}
 	
+	public function calculaStartPaginacao($page,$stepper) {
+		return ($page == 1) ? 0 : (($page*$stepper)-$stepper);
+	}
+	
 ?>
