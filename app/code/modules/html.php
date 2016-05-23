@@ -1,4 +1,7 @@
 <?php
+
+
+
 	/**
 	 * Project: SimplePHP Framework
 	 * 
@@ -246,7 +249,7 @@
 				$htmlCol = '';            
 				$x = 0;
 				foreach ($row as $col) {
-					$htmlCol .= $this->tag('td',$col,array('id'=>$attributes['id'].$i.'_col_'.$x));
+					$htmlCol .= $this->tag('td',$col,array('id'=>$attributes['id'].$i.'_col_'.$x,'class'=>$attributes['id'].'_col_'.$x));
 					$x++;
 				}
 				if($striped) {
