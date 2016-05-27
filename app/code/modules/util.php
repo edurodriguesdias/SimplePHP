@@ -152,6 +152,25 @@
 		$year_diff--;
 		return $year_diff;
 	}
+
+	function formataValor($data) {
+
+        $data = str_ireplace('R$','',$data);
+        $data = str_ireplace('.','',$data);
+        $data = str_ireplace(',','.',$data);
+
+        return $data;
+    }
+
+    function timestamp($data) {
+        //quebrando os valores vindo do datetimepicker e tranformando em um array
+        $d = explode('/', $data);
+        
+        //tranformando a data escolhida em timestamp
+        $data = mktime(0,0,0,$d[1],$d[0],$d[2]);
+        return $data;
+        
+    }
 	
 	
 ?>
