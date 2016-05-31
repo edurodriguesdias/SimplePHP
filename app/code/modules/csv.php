@@ -23,14 +23,14 @@
 			#headers
 			$this->prepare($filename);
 			foreach ($data[0] as $key => $value) {
-				echo $key .',';
+				echo utf8_decode($key) .";";
 			}
-			echo ';';
+			echo "\n";
 		   	foreach ($data as $item) {
 		   		foreach ($item as $key => $value) {
-		   			echo $value .',';
+		   			echo utf8_decode($value) .';';
 		   		}
-		   		echo ';';
+		   		echo "\n";
 		   	}
 		}
 
