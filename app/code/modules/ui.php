@@ -20,46 +20,49 @@
 		}
 		public function pager($step,$total,$active=1,$onclick='',$moreParam='') {
 
-			 #number of pages
-	         $pages = intval($total/$step);
-	         $pages = (($pages*$step) == $total) ? $pages : $pages +1;
-	         $return = '';
+             #number of pages
+             $pages = intval($total/$step);
+             $pages = (($pages*$step) == $total) ? $pages : $pages +1;
+             $return = '';
+             
+             $url = explode('/', $_SERVER['REQUEST_URI']);
 
-	         #before
-	          if(($active!=1)) {
-	             $values['class'] = 'stepper-before';
-	             $values['onclick'] = $onclick."(".($active-1). ",'$moreParam')";
-	             $return .= $this->span('Anterior',$values);
-	         }
+             $currentPage = '/'.$url[1].'/'.$url[2];
+             #before
+              if(($active!=1)) {
+                 $values['class'] = 'stepper-before';
+                 $values['onclick'] = $onclick."(".($active-1). ",'$currentPage','$moreParam')";
+                 $return .= $this->span('Anterior',$values);
+             }
 
-	         for($x = 1; $x<= $pages;$x++) {
-	             if( ($x >= ($active-2)) && ($x<($active+3)  or ($x < 6)  )) {
-	                     $values['class'] = 'stepper';
-	                     $values['onclick'] = $onclick."($x, '$moreParam')";
-	                     #current Step
-	                     if($active == $x) {
-	                     	 $values['class'] = 'stepper stepper-active';
-	                     	$i = $this->b($x); 
-	                     } else {
-	                     	$i = $x;
-	                     }
-	                     $return .= $this->span($i,$values);
-	             }
-	         }
+             for($x = 1; $x<= $pages;$x++) {
+                 if( ($x >= ($active-2)) && ($x<($active+3)  or ($x < 6)  )) {
+                         $values['class'] = 'stepper';
+                         $values['onclick'] = $onclick."($x,'$currentPage', '$moreParam')";
+                         #current Step
+                         if($active == $x) {
+                              $values['class'] = 'stepper stepper-active';
+                             $i = $this->b($x); 
+                         } else {
+                             $i = $x;
+                         }
+                         $return .= $this->span($i,$values);
+                 }
+             }
 
-	         #next
-	         if(($active+1) <= $pages) {
-	             $values['class'] = 'stepper-next';
-	             $values['onclick'] = $onclick."(".($active+1). ",'$moreParam')";
-	             $return .= $this->span('Pr&oacute;xima', $values);
-	         }
-	          $return =  $this->div($return,array('id'=>'pager'));
+             #next
+             if(($active+1) <= $pages) {
+                 $values['class'] = 'stepper-next';
+                 $values['onclick'] = $onclick."(".($active+1). ",'$currentPage','$moreParam')";
+                 $return .= $this->span('Pr&oacute;xima', $values);
+             }
+              $return =  $this->div($return,array('id'=>'pager'));
 
-	          if($total <= $step) {
-	              $return = '';
-	          }
-	          return $return;
-	     }
+              if($total <= $step) {
+                  $return = '';
+              }
+              return $return;
+         }
 
 		/**
 		* dateSelector function, create a data selector html
