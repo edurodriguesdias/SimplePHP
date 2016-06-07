@@ -144,13 +144,16 @@
 	}
 	
 	function idade($birthday){
+
 		list($year,$month,$day) = explode("-",$birthday);
 		$year_diff  = date("Y") - $year;
 		$month_diff = date("m") - $month;
 		$day_diff   = date("d") - $day;
 		if ($day_diff < 0 || $month_diff < 0)
 		$year_diff--;
+
 		return $year_diff;
+
 	}
 
 	function formataValor($data) {
@@ -171,6 +174,15 @@
         return $data;
         
     }
+
+    function mil($value) {
+
+	   if($value < 1000) {
+	       return $value;
+	    } else {
+	       return '+'.intval($value/1000).'k';
+	    }
+	}
 	
 	
 ?>
