@@ -74,6 +74,37 @@
 			 $estado['Tocantins'] = utf8_decode('Tocantins');
 			return $estado;
 		}
+
+		public function ufs() {
+			 $estado['AC'] = utf8_decode('AC');
+			 $estado['AL'] = utf8_decode('AL');
+			 $estado['AP'] = utf8_decode('AP');
+			 $estado['AM'] = utf8_decode('AM');
+			 $estado['BA'] = utf8_decode('BA');
+			 $estado['CE'] = utf8_decode('CE');
+			 $estado['DF'] = utf8_decode('DF');
+			 $estado['ES'] = utf8_decode('ES');
+			 $estado['GO'] = utf8_decode('GO');
+			 $estado['MA'] = utf8_decode('MA');
+			 $estado['MT'] = utf8_decode('MT');
+			 $estado['MS'] = utf8_decode('MS');
+			 $estado['MG'] = utf8_decode('MG');
+			 $estado['PA'] = utf8_decode('PA');
+			 $estado['PB'] = utf8_decode('PB');
+			 $estado['PR'] = utf8_decode('PR');
+			 $estado['PE'] = utf8_decode('PE');
+			 $estado['PI'] = utf8_decode('PI');
+			 $estado['RJ'] = utf8_decode('RJ');
+			 $estado['RN'] = utf8_decode('RN');
+			 $estado['RS'] = utf8_decode('RS');
+			 $estado['RO'] = utf8_decode('RO');
+			 $estado['RR'] = utf8_decode('RR');
+			 $estado['SC'] = utf8_decode('SC');
+			 $estado['SP'] = utf8_decode('SP');
+			 $estado['SE'] = utf8_decode('SE');
+			 $estado['TO'] = utf8_decode('TO');
+			return $estado;
+		}
 		public function clubs() {
 			 $estado['Corinthians'] = utf8_decode('Corinthians');
 			 $estado['São Paulo'] = utf8_decode('São Paulo');
