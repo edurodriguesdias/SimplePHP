@@ -74,7 +74,7 @@ class model {
             global $mdb2;
 
             $sql = "SELECT $values "
-                    . "FROM $table as a ";
+                    . "FROM `$table` as a ";
             
             //caso seja array itera os joins
             if(is_array($join)) {
@@ -127,8 +127,8 @@ class model {
         if ($filters != '') {
                 foreach ($filters as $key => $value) {
                        if (substr(trim($key), 0, 2) != 'in') {
-                        $key    = addslashes($key);
-                        $value  = addslashes($value);
+                        #$key    = addslashes($key);
+                        #$value  = addslashes($value);
                        }
                         
                         if (substr_count($key, 'like') == 1) {
@@ -196,7 +196,7 @@ class model {
             $data['conta_id'] = $_SESSION['conta_id'];
         }
 
-        $sql = "INSERT INTO $table ( `id` ";
+        $sql = "INSERT INTO `$table` ( `id` ";
         extract($data);
 
         $id = "NULL";
@@ -404,7 +404,7 @@ class model {
     public function alterData($table, $data, $filter) {
         global $mdb2;
 
-        $sql = "UPDATE $table ";
+        $sql = "UPDATE `$table` ";
         extract($data);
         $sql .= ' SET';
         foreach ($data as $key => $value) {
@@ -414,9 +414,9 @@ class model {
                         $sql .= " $key = '$value' ,";
                 } else {
                         if ($value) {
-                                $sql .= " $key = $value ,";
+                                $sql .= " `$key` = $value ,";
                         } else {
-                                $sql .= " $key = '' ,";
+                                $sql .= " `$key` = '' ,";
                         }
                 }
         }
@@ -427,9 +427,9 @@ class model {
         if (is_array($filter)) {
                 foreach ($filter as $key => $value) {
                         if (is_string($value)) {
-                                $sql .= "AND $key = '$value' ";
+                                $sql .= "AND `$key` = '$value' ";
                         } else {
-                                $sql .= "AND $key = $value ";
+                                $sql .= "AND `$key` = $value ";
                         }
                 }
         }
@@ -480,7 +480,7 @@ class model {
     **/
     public function addColumn($table,$column,$type) {
         global $mdb2;
-        $sql = "ALTER TABLE $table ADD $column $type;";
+        $sql = "ALTER TABLE `$table` ADD $column $type;";
 
         if ($this->debug == 1) {
             echo "<br><b>$sql</b><br>";
