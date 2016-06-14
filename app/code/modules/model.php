@@ -411,7 +411,7 @@ class model {
                 # $value = str_replace("'",'"',$value);
                 $value = addslashes($value);
                 if (is_string($value)) {
-                        $sql .= " $key = '$value' ,";
+                        $sql .= " `$key` = '$value' ,";
                 } else {
                         if ($value) {
                                 $sql .= " `$key` = $value ,";
