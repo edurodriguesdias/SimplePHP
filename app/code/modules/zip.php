@@ -51,7 +51,7 @@
 				//close the zip -- done!
 				$zip->close();
 				header("Content-type: application/zip"); 
-				header("Content-Disposition: attachment; filename={$destination}"); 
+				header("Content-Disposition: attachment; filename=$destination"); 
 				header("Pragma: no-cache");
 				header("Expires: 0");
 				readfile($destination);
