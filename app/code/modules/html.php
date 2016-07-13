@@ -39,10 +39,9 @@
 		public function select($full=true,$data=array(),$name='',$selected = 0,$selectOption = 1,$selectLabel = 'Selecione', $cssclass='',$onchange='#',$disabled = false ) 
 		{
 			$return = '';
-                        if($selectOption == 1) {
+         if($selectOption == 1) {
 				$return .= "<option value=\"0\">$selectLabel</option>\n";
 			}   
-
 
 			if(is_array($data)){
 				foreach($data as $id => $value) {
