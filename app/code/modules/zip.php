@@ -50,17 +50,13 @@
 				// pre($zip);
 				//close the zip -- done!
 				$zip->close();
-				$this->prepare($destination);
+				header("Content-type: application/zip"); 
+				header("Content-Disposition: attachment; filename={$destination}"); 
+				header("Pragma: no-cache");
+				header("Expires: 0");
+				readfile($destination);
 				exit;
 			}
-		}
-		//force download the zip file
-		function prepare($filename) {
-			header("Content-type: application/zip"); 
-			header("Content-Disposition: attachment; filename={$filename}"); 
-			header("Pragma: no-cache");
-			header("Expires: 0");
-			readfile("$filename");
 		}
 }
 ?>
