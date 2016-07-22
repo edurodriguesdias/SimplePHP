@@ -40,8 +40,13 @@ class model {
      * @param $function_key string funcão para aplicação na chave : exemplo strtoupper
      * @param $function_value string funcão para aplicação no valor : exemplo strtoupper
      */
-    public function getList($table, $key='id', $value='name', $filters='', $function_key='_void', $function_value='_void') {
-        $data = $this->getData($table, "a.$key,a.$value", $filters, '', "a.$value asc");
+    public function getList($table, $key='id', $value='name', $filters='', $function_key='_void', $function_value='_void', $orderby='') {
+        if ( $orderby != '' ) {
+            $data = $this->getData($table, "a.$key,a.$value", $filters, '', $orderby );
+        } else {
+            $data = $this->getData($table, "a.$key,a.$value", $filters, '', "a.$value asc");
+        } 
+
         foreach ($data as $item) {
             if ($function_key != '_void') {
                 $item[$key] = $function_key($item[$key]);
