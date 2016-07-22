@@ -19,8 +19,14 @@
 
 		} 
 		
-		public function cutEnd($txt,$qtd) {
-			return substr($txt,0,strlen($txt)-$qtd);
+		public function cutEnd($txt,$qtd,$points=false) {
+			$return = substr($txt,0,strlen($txt)-$qtd);
+			if($points) {
+				if(strlen($txt) > $qtd) {
+					$return .= '...';
+				}
+			}
+			return $return;
 		}
 		
 		public function days($days = 31) {

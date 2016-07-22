@@ -250,51 +250,55 @@ class model {
      * @return <array>
      */
 	public function replaceData($table, $data,$saveIp = false) {
-        global $mdb2;
+       global $mdb2;
 
-        if($saveIp) {
-            $data['ip'] = $_SERVER['REMOTE_ADDR'];
-        }
+       if($saveIp) {
+           $data['ip'] = $_SERVER['REMOTE_ADDR'];
+       }
+       $data['conta_id'] = $_SESSION['conta_id'];
+       
+       $sql = "REPLACE INTO $table ( `id` ";
+       extract($data);
 
-        $sql = "REPLACE INTO $table ( `id` ";
-        extract($data);
+       $id = $data['id'] != ''? $data['id'] : 'NULL';
+       unset($data['id']);
 
-        $id = "NULL";
+       foreach ($data as $key => $value) {
+           $sql .= ",`$key`";
+       }
+       $sql .= ") VALUES ( " . $id . " ";
+       foreach ($data as $key => $value) {
+           $key    = addslashes($key);
+           $value  = addslashes($value);
 
-        foreach ($data as $key => $value) {
-                $sql .= ",`$key`";
-        }
-        $sql .= ") VALUES ( " . $id . " ";
-        foreach ($data as $key => $value) {
-                $key    = addslashes($key);
-                $value  = addslashes($value);
+           if ($value == 'NULL') {
+                   $sql .= ", $value";
+           } else if (is_string($value)) {
+                   $sql .= ", '$value'";
+           } else {
+                   if ($value) {
+                           $sql .= ", $value";
+                   } else {
+                           $sql .= ", ''";
+                   }
+           }
+       }
 
-                if ($value == 'NULL') {
-                        $sql .= ", $value";
-                } else if (is_string($value)) {
-                        $sql .= ", '$value'";
-                } else {
-                        if ($value) {
-                                $sql .= ", $value";
-                        } else {
-                                $sql .= ", ''";
-                        }
-                }
-        }
-        $sql .= ");";
-        if ($this->debug == 1) {
-                echo "<br><b>$sql</b><br>";
-        }        
-        $mdb2->query($sql);
-        if (mysql_insert_id() == 0) {
-                $arq = fopen("../logs/query-insert-errors.txt", 'a+');
-                fwrite($arq, $sql . " - " . @date('d/m/Y h:i:s') . '
-		');
-                return array('status'=>'erro','sql'=>$sql);
-        } else {
-                return mysql_insert_id();
-        }
-    }
+       $sql .= ");";
+       if ($this->debug == 1) {
+           echo "<br><b>$sql</b><br>";
+       }
+               
+       $mdb2->query(utf8_decode($sql));
+       if (mysql_insert_id() == 0) {
+           $arq = fopen("../logs/query-insert-errors.txt", 'a+');
+           fwrite($arq, $sql . " - " . @date('d/m/Y h:i:s') . '
+        ');
+           return array('status'=>'erro','sql'=>$sql);
+       } else {
+           return mysql_insert_id();
+       }
+   }
 
     /**
      * Conta dados no banco
