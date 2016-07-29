@@ -214,6 +214,21 @@
 	       return '+'.intval($value/1000).'k';
 	    }
 	}
-	
-	
+
+	function mask($val, $mask) {
+		$value = '';
+		$k = 0;
+		for($i = 0; $i<=strlen($mask)-1; $i++) {
+			if($mask[$i] == '#') {
+				if(isset($val[$k]))
+				$value .= $val[$k++];
+			}
+			else {
+				if(isset($mask[$i])) {
+					$value .= $mask[$i];
+				}
+			}
+		}
+		return $value;
+	}
 ?>
