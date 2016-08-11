@@ -155,7 +155,7 @@ class model {
                                 $sql .= "OR $key = '$value' ";
                         } else if (substr(trim($key), 0, 2) == 'in') {
                                 $key = str_replace('in ', '', $key);
-                                $sql .= "AND $key in ($value) ";
+                                $sql .= "AND $key in $value ";
                         } else if (substr(trim($key), 0, 5) == 'notin') {
                                 $key = str_replace('notin ', '', $key);
                                 $sql .= "AND $key not in $value ";
