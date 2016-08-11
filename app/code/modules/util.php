@@ -162,7 +162,46 @@
 		public function calculaStartPaginacao($page,$stepper) {
 			return ($page == 1) ? 0 : (($page*$stepper)-$stepper);
 		}
-		              
+		         
+
+		/*----
+		Contagem de intervalo de dias entre datas
+		Parametro 1: Dia inicial em formato datetime
+		Parametro 2: Dia final em formato datetime
+		Retorno: valor inteiro
+		----*/
+		public function countDays($initial_date='',$final_date='') {
+			/*----
+			Caso queira contar a partir da data atual não informar $initial_date (parametro 1)
+			Caso queira contar até a data atual não informar $final_date (parametro 2)
+			----*/
+			if ($final_date == '') {
+				$final_date = date_create($final_date);
+			} else {
+				$final_date = date('d/m/Y', strtotime($final_date));
+				$final_date = date_create_from_format('d/m/Y',$final_date);
+			}
+
+			if ($initial_date == '') {
+				$initial_date = date_create($initial_date);
+			} else {
+				$initial_date = date('d/m/Y', strtotime($initial_date));
+				$initial_date = date_create_from_format('d/m/Y',$initial_date);
+			}
+
+			$days = date_diff($initial_date,$final_date);
+			
+			if ($days->invert) {
+				// caso seja negativo:
+				$days = '-'.$days->format('%a');
+			} else {
+				$days = $days->format('%a');
+			}
+
+			return $days;
+		}
+		
+
 	}
 	
 	#developer functions
