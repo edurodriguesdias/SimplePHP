@@ -20,7 +20,7 @@
 		} 
 		
 		public function cutEnd($txt,$qtd,$points=false) {
-			$return = substr($txt,0,strlen($txt)-$qtd);
+			$return = substr($txt,0,$qtd);
 			if($points) {
 				if(strlen($txt) > $qtd) {
 					$return .= '...';
