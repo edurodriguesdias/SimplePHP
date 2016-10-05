@@ -128,7 +128,7 @@ class model {
     *   Função responsável por criar os filtros de sql
     **/
     private function makeFilters($filters){ 
-		$sql = ''; 
+        $sql = ''; 
         if ($filters != '') {
                 foreach ($filters as $key => $value) {
                        if (substr(trim($key), 0, 2) != 'in') {
@@ -249,7 +249,7 @@ class model {
      * @param $saveIp bool, salvar ip sim ou não
      * @return <array>
      */
-	public function replaceData($table, $data,$saveIp = false) {
+    public function replaceData($table, $data,$saveIp = false) {
        global $mdb2;
 
        if($saveIp) {
@@ -288,8 +288,13 @@ class model {
        if ($this->debug == 1) {
            echo "<br><b>$sql</b><br>";
        }
-               
-       $mdb2->query(utf8_decode($sql));
+       
+       if($mdb2->dsn['charset']) {
+            $mdb2->query($sql);
+       } else {
+            $mdb2->query(utf8_decode($sql));
+       }        
+
        if (mysql_insert_id() == 0) {
            $arq = fopen("../logs/query-insert-errors.txt", 'a+');
            fwrite($arq, $sql . " - " . @date('d/m/Y h:i:s') . '
@@ -396,7 +401,7 @@ class model {
         if (@$res->result != 1) {
                 $arq = fopen("../logs/query-remove-errors.txt", 'a+');
                 fwrite($arq, $sql . " - " . @date('d/m/Y h:i:s') . '
-								');
+                                ');
                 die('Error not removed data - See log file');
         } else {
                 return true;
@@ -452,7 +457,7 @@ class model {
         if (@$res->result != 1) {
                 $arq = fopen("../logs/query-update-errors.txt", 'a+');
                 fwrite($arq, $sql . " - " . @date('d/m/Y h:i:s') . '
-				');
+                ');
                 die('Error not updated data - See log file');
         } else {
                 return true;
@@ -570,9 +575,6 @@ class model {
         $dados = $this->getData($tabela,'*',array($chave=>$id));
         return $dados[0];
     }
-
-
-
 }
 
 ?>
