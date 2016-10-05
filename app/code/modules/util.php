@@ -215,8 +215,8 @@
 		pr($data);
 		exit;
 	}
-	function reais($value) {
-		return 'R$ '.number_format($value,2,',','.');
+	function reais($value, $casas = 2) {
+		return 'R$ '.number_format($value,$casas,',','.');
 	}
 	
 	function idade($birthday){
