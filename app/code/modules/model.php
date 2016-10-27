@@ -138,18 +138,18 @@ class model {
                         
                         if (substr_count($key, 'like') == 1) {
                                 
-                                if (substr(trim($key), 0, 9) == 'likeAfter') {
-                                     $key = str_replace('likeAfter', '', $key);
-                                     $sql .= "AND $key like '$value%' ";   
+                            if (substr(trim($key), 0, 9) == 'likeAfter') {
+                                 $key = str_replace('likeAfter', '', $key);
+                                 $sql .= "AND $key like '$value%' ";   
+                            } else {
+                                if (substr(trim($key), 0, 10) == 'likeBefore') {
+                                    $key = str_replace('likeBefore', '', $key);
+                                    $sql .= "AND $key like '%$value' ";   
                                 } else {
-                                    if (substr(trim($key), 0, 10) == 'likeBefore') {
-                                        $key = str_replace('likeBefore', '', $key);
-                                        $sql .= "AND $key like '%$value' ";   
-                                    } else {
-                                        $key = str_replace('like ', '', $key);
-                                        $sql .= "AND $key like '%$value%' ";   
-                                    }     
-                                }
+                                    $key = str_replace('like ', '', $key);
+                                    $sql .= "AND $key like '%$value%' ";   
+                                }     
+                            }
                         } else if (substr(trim($key), 0, 2) == 'or') {
                                 $key = str_replace('or ', '', $key);
                                 $sql .= "OR $key = '$value' ";
@@ -162,6 +162,12 @@ class model {
                         } else if (substr(trim($key), 0, 3) == 'dif') {
                                 $key = str_replace('dif', '', $key);
                                 $sql .= "AND $key != '$value' ";
+                        } else if (substr(trim($key), 0, 2) == '<=') {
+                                $key = str_replace('<=', '', $key);
+                                $sql .= "AND $key <= $value ";
+                        } else if (substr(trim($key), 0, 2) == '>=') {
+                                $key = str_replace('>=', '', $key);
+                                $sql .= "AND $key >= $value ";
                         } else if (substr(trim($key), 0, 1) == '<') {
                                 $key = str_replace('<', '', $key);
                                 $sql .= "AND $key < $value ";
