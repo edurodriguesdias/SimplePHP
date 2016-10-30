@@ -209,14 +209,30 @@
 	{
 		echo '<pre>';
 		print_r($data);
-	} 
+	}
+	 
 	function pre($data) 
 	{
 		pr($data);
 		exit;
 	}
+
 	function reais($value, $casas = 2) {
 		return 'R$ '.number_format($value,$casas,',','.');
+
+
+	function p($data) 
+	{
+		
+		echo '<!--';
+		if(is_array($data)) {
+			foreach ($data as $key => $value) {
+				echo $key .'->'.$value;
+			} else {
+				echo $data;
+			}
+		}
+		echo '-->';
 	}
 	
 	function idade($birthday){
