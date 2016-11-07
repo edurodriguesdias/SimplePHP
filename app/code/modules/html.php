@@ -34,9 +34,10 @@
 		* @param <string> $cssclass
 		* @param <string> $onchange
 		* @param <boolean> $disabled
+		* @param <array> $extraParam
 		* @return select html component <string>
 		*/
-		public function select($full=true,$data=array(),$name='',$selected = 0,$selectOption = 1,$selectLabel = 'Selecione', $cssclass='',$onchange='#',$disabled = false ) 
+		public function select($full=true,$data=array(),$name='',$selected = 0,$selectOption = 1,$selectLabel = 'Selecione', $cssclass='',$onchange='#',$disabled = false,$extraParam = '' ) 
 		{
 			$return = '';
          if($selectOption == 1) {
@@ -58,11 +59,16 @@
 			if($onchange != '#') {
 				$actions = "onchange=\"$onchange\"";
 			}
+			if($extraParam != '') {
+				foreach ($extraParam as $key => $value) {
+					$params .= ' '.$key.'="'.$value.'"';
+				}
+			}
 			if($full) {
 				if($disabled == true ) {
-					$return = "<select disabled=\"disabled\" class=\"$cssclass\" name=\"$name\" id=\"$name\"  $actions >$return</select>\n";
+					$return = "<select disabled=\"disabled\" class=\"$cssclass\" name=\"$name\" id=\"$name\"  $actions $params >$return</select>\n";
 					} else {
-						$return = "<select class=\"$cssclass\" name=\"$name\" $actions  id=\"$name\" >$return</select>\n";
+						$return = "<select class=\"$cssclass\" name=\"$name\" $actions  id=\"$name\" $params >$return</select>\n";
 					}
 				}   
 				return  $return;
