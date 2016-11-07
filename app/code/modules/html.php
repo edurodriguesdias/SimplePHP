@@ -45,10 +45,12 @@
 
 			if(is_array($data)){
 				foreach($data as $id => $value) {
-					if($selected == $id ) {
-						$return .= "<option selected value=\"$id\">$value</option>\n";
-					} else {
-						$return .= "<option value=\"$id\">$value</option>\n";
+					if ($id != '') {
+						if( $selected == $id ) {
+							$return .= "<option selected value=\"$id\">$value</option>\n";
+						} else {
+							$return .= "<option value=\"$id\">$value</option>\n";
+						}
 					}
 				}
 			}
