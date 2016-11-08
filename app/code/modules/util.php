@@ -290,4 +290,10 @@
 		}
 		return $value;
 	}
+
+	#remove todos os caracteres não alfa-numéricos da string 
+	function unmask($valor) {
+		$retorno = str_replace(array('R$',' ','.','-','_','(',')',','), '', $valor);
+		return $retorno;
+	}
 ?>
