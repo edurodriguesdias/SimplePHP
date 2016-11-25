@@ -37,7 +37,7 @@
 		* @param <array> $extraParam
 		* @return select html component <string>
 		*/
-		public function select($full=true,$data=array(),$name='',$selected = 0,$selectOption = 1,$selectLabel = 'Selecione', $cssclass='',$onchange='#',$disabled = false,$extraParam = '' ) 
+		public function select($full=true,$data=array(),$name='',$selected = 0,$selectOption = 1,$selectLabel = 'Selecione', $cssclass='',$onchange='#',$disabled = false, $extraParam = '' ) 
 		{
 			$return = '';
          if($selectOption == 1) {
@@ -46,12 +46,10 @@
 
 			if(is_array($data)){
 				foreach($data as $id => $value) {
-					if ($id != '') {
-						if( $selected == $id ) {
-							$return .= "<option selected value=\"$id\">$value</option>\n";
-						} else {
-							$return .= "<option value=\"$id\">$value</option>\n";
-						}
+					if( $selected == $id ) {
+						$return .= "<option selected value=\"$id\">$value</option>\n";
+					} else {
+						$return .= "<option value=\"$id\">$value</option>\n";
 					}
 				}
 			}
