@@ -324,7 +324,11 @@
 		$retorno = str_replace(' ', '_', $retorno);
       return $retorno;
    }
-
+	// Substitui todos os caracteres especiais pelas suas vogais respectivas
+	function clean($string) {
+	  $retorno = preg_replace('/[`^~\'"]/', null, iconv('UTF-8', 'ASCII//TRANSLIT', $string));
+	  return $retorno;
+	}
 
 
 ?>
