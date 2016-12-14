@@ -2,7 +2,7 @@
 
 /**
  * Project: SimplePHP Framework
- * 
+ *
  * @copyright Alphacode  www.alphacode.com.br
  * @author Rafael Franco <simplephp@alphacode.com.br>
  * @package model
@@ -18,7 +18,7 @@ class model {
     public $context = false;
 
     public function __construct() {
-            
+
     }
 
     //Habilita o debug
@@ -45,7 +45,7 @@ class model {
             $data = $this->getData($table, "a.$key,a.$value", $filters, '', $orderby );
         } else {
             $data = $this->getData($table, "a.$key,a.$value", $filters, '', "a.$value asc");
-        } 
+        }
 
         foreach ($data as $item) {
             if ($function_key != '_void') {
@@ -71,7 +71,7 @@ class model {
      * @param $filters array lista de filtros chave e valor
      * @param $limits array - start | limit
      * @param $orderby string
-     * @param $join string or array lista de joins 
+     * @param $join string or array lista de joins
      * @param $groupby string
      */
     public function getData($table, $values='a.*', $filters = '', $limits='', $orderby='a.ID DESC', $join='', $groupby='') {
@@ -80,7 +80,7 @@ class model {
 
             $sql = "SELECT $values "
                     . "FROM `$table` as a ";
-            
+
             //caso seja array itera os joins
             if(is_array($join)) {
                 foreach ($join as $key => $value) {
@@ -113,7 +113,7 @@ class model {
                 $arq = fopen("../logs/query-select-errors.txt",'a+');
                 fwrite($arq,$sql." - ".@date('d/m/Y h:i:s').'/n');
             }
-            
+
             $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
 
             if (count($res) == 0) {
@@ -123,32 +123,39 @@ class model {
             return $res;
     }
 
-    
+
     /**
     *   Função responsável por criar os filtros de sql
     **/
-    private function makeFilters($filters){ 
-        $sql = ''; 
+    private function makeFilters($filters){
+        $sql = '';
         if ($filters != '') {
                 foreach ($filters as $key => $value) {
                        if (substr(trim($key), 0, 2) != 'in') {
                         #$key    = addslashes($key);
                         #$value  = addslashes($value);
                        }
-                        
+
                         if (substr_count($key, 'like') == 1) {
-                                
+
                             if (substr(trim($key), 0, 9) == 'likeAfter') {
-                                 $key = str_replace('likeAfter', '', $key);
-                                 $sql .= "AND $key like '$value%' ";   
+                                $key = str_replace('likeAfter', '', $key);
+                                $sql .= "AND $key like '$value%' ";
                             } else {
                                 if (substr(trim($key), 0, 10) == 'likeBefore') {
                                     $key = str_replace('likeBefore', '', $key);
-                                    $sql .= "AND $key like '%$value' ";   
-                                } else {
+                                    $sql .= "AND $key like '%$value' ";
+                                } else if(substr(trim($key), 0, 7) == 'like or'){
+                                    if (substr(trim($key),-1) == ')') {
+                                        $key = str_replace(')', '', $key);
+                                        $close =')';
+                                    }
+                                    $key = str_replace('like or ', '', $key);
+                                    $sql .= "OR $key like '%$value%' $close";
+                                } else{
                                     $key = str_replace('like ', '', $key);
-                                    $sql .= "AND $key like '%$value%' ";   
-                                }     
+                                    $sql .= "AND $key like '%$value%' ";
+                                }
                             }
                         } else if (substr(trim($key), 0, 2) == 'or') {
                                 $key = str_replace('or ', '', $key);
@@ -183,11 +190,11 @@ class model {
                         }
                 }
         }
-      
+
         return $sql;
     }
-    
-    
+
+
     /**
      * Insere dados no banco
      * @param $table string, nome da tabela
@@ -219,7 +226,7 @@ class model {
         foreach ($data as $key => $value) {
             $key    = addslashes($key);
             $value  = addslashes($value);
-                    
+
             if ($value == 'NULL') {
                     $sql .= ", $value";
             } else if (is_string($value)) {
@@ -233,10 +240,10 @@ class model {
             }
         }
         $sql .= ");";
-        
+
         if ($this->debug == 1) {
             echo "<br><b>$sql</b><br>";
-        }        
+        }
         $mdb2->query($sql);
         if ($mdb2->lastInsertID($table, 'id') == 0) {
             $arq = fopen("../logs/query-insert-errors.txt", 'a+');
@@ -245,7 +252,7 @@ class model {
         } else {
             return $mdb2->lastInsertID($table, 'id');
         }
-    }              
+    }
 
 
     /**
@@ -262,7 +269,7 @@ class model {
            $data['ip'] = $_SERVER['REMOTE_ADDR'];
        }
        $data['conta_id'] = $_SESSION['conta_id'];
-       
+
        $sql = "REPLACE INTO $table ( `id` ";
        extract($data);
 
@@ -294,12 +301,12 @@ class model {
        if ($this->debug == 1) {
            echo "<br><b>$sql</b><br>";
        }
-       
+
        if($mdb2->dsn['charset']) {
             $mdb2->query($sql);
        } else {
             $mdb2->query(utf8_decode($sql));
-       }        
+       }
 
        if (mysql_insert_id() == 0) {
            $arq = fopen("../logs/query-insert-errors.txt", 'a+');
@@ -328,36 +335,36 @@ class model {
             } else {
                     $sql = "SELECT count(distinct($distinct)) as qtd ";
             }
-            
+
             $t = explode(' ',$table);
 
             $sql    .= "FROM $t[0] as a  "
                     . " $join "
                     . "WHERE a.id >= 1 ";
 
-            #makefilters     
+            #makefilters
             $sql .= $this->makeFilters($filters);
-            
+
             if($this->context) {
                 $sql .= " AND a.conta_id = " . $_SESSION['conta_id'];
             }
-            
+
             if ($additional) {
                 $sql .= " " . $additional;
             }
-           
+
             if($this->debug == 1) {
                 echo "<br><b>$sql</b><br>";
             }
-           
+
 
             $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
             if(is_array($res)) {
-                return $res[0]['qtd'];    
+                return $res[0]['qtd'];
             } else {
                 return 0;
             }
-            
+
     }
 
     /**
@@ -371,12 +378,12 @@ class model {
         $sql = "Delete  "
                 . "FROM $table "
                 . "WHERE id >= 1 ";
-        
+
         if ($filters != '') {
                 foreach ($filters as $key => $value) {
                         $key    = addslashes($key);
                         $value  = addslashes($value);
-                
+
                         if (substr_count($value, 'like') == 1) {
                                 $value = str_replace('like ', '', $value);
                                 $sql .= "AND $key like '%$value%' ";
@@ -398,7 +405,7 @@ class model {
                         }
                 }
         }
-        
+
         if ($this->debug == 1) {
                 echo "<br><b>$sql</b><br>";
         }
@@ -456,10 +463,10 @@ class model {
 
 
         $res = $mdb2->query($sql);
-        
+
         if ($this->debug == 1) {
                 echo "<br><b>$sql</b><br>";
-        }  
+        }
         if (@$res->result != 1) {
                 $arq = fopen("../logs/query-update-errors.txt", 'a+');
                 fwrite($arq, $sql . " - " . @date('d/m/Y h:i:s') . '
@@ -473,7 +480,7 @@ class model {
     /**
     * Busca as colunas de uma tabela
     * @param @column string
-    * @return array 
+    * @return array
     **/
     public function getColumns($column) {
         global $mdb2;
@@ -482,7 +489,7 @@ class model {
         if ($this->debug == 1) {
             echo "<br><b>$sql</b><br>";
         }
-                
+
         $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
 
         if (count($res) == 0) {
@@ -496,7 +503,7 @@ class model {
     * @param @table string
     * @param @column string
     * @param @type string
-    * @return void 
+    * @return void
     **/
     public function addColumn($table,$column,$type) {
         global $mdb2;
@@ -505,7 +512,7 @@ class model {
         if ($this->debug == 1) {
             echo "<br><b>$sql</b><br>";
         }
-                
+
         $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
 
         if (count($res) == 0) {
@@ -519,12 +526,12 @@ class model {
     * @param @table string
     * @param @column string
     * @param @type string
-    * @return void 
+    * @return void
     **/
     public function addTable($name,$columns) {
-        
+
         global $mdb2;
-        
+
         $sql = "CREATE TABLE `$name` (
                   `id` int(11) NOT NULL AUTO_INCREMENT,
                   `id_cliente` int(11) NOT NULL,
@@ -541,7 +548,7 @@ class model {
         if ($this->debug == 1) {
             echo "<br><b>$sql</b><br>";
         }
-                
+
         $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
 
         if (count($res) == 0) {
@@ -553,15 +560,15 @@ class model {
     /**
     * Roda um sql generico
     * @param @sql string
-    * @return boolean 
+    * @return boolean
     **/
     public function sql($sql) {
         global $mdb2;
-     
+
         if ($this->debug == 1) {
             echo "<br><b>$sql</b><br>";
         }
-                
+
         $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
 
         if (count($res) == 0) {
@@ -575,7 +582,7 @@ class model {
     * @param $table string, nome da tabela
     * @param @id int
     * @param @chave string
-    * @return array 
+    * @return array
     **/
     public function getOne($tabela,$id,$chave='id') {
         $dados = $this->getData($tabela,'*',array($chave=>$id));
