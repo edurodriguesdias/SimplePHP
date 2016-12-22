@@ -207,8 +207,13 @@ class simplePHP extends util {
      *
      * @return void
      * */
-    public function redirect($link) {
+    public function redirect($link, $status="", $message="") {
+        if ( $status != "" ) {
+            $_SESSION['toast']['status'] = $status;
+            $_SESSION['toast']['message'] = $message;
+        }
         header('location:' . $link);
+
         exit;
     }
 
