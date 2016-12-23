@@ -206,6 +206,10 @@ class simplePHP extends util {
      * redirect function
      *
      * @return void
+     *
+     * The 2nd 'n 3rd params are optional
+     * 2nd param expects the toast type { 'show', 'info', 'success', 'warning', 'error'}
+     * 3rd param expects the message that will be show in the toast
      * */
     public function redirect($link, $status="", $message="") {
         if ( $status != "" ) {
@@ -222,8 +226,7 @@ class simplePHP extends util {
      * @return array
      * */
     public function includeHTML($path) {
-        $return = "<!-- Start: $path -->
-";                        
+        $return = "<!-- Start: $path -->";                        
 		if(is_file($path)) {
 			 $return .= file_get_contents($path);    
 		}
