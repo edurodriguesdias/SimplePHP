@@ -207,13 +207,15 @@ class simplePHP extends util {
      *
      * @return void
      *
-     * The 2nd 'n 3rd params are optional
+     * The 2nd, 3rd 'n 4th params are optional
      * 2nd param expects the toast type { 'show', 'info', 'success', 'warning', 'error'}
-     * 3rd param expects the message that will be show in the toast
+     * 3rd param expects the title that will be show in the toast
+     * 4th param expects the message that will be show in the toast
      * */
-    public function redirect($link, $status="", $message="") {
+    public function redirect($link, $status="", $title="", $message="") {
         if ( $status != "" ) {
             $_SESSION['toast']['status'] = $status;
+            $_SESSION['toast']['title'] = $title;
             $_SESSION['toast']['message'] = $message;
         }
         header('location:' . $link);
