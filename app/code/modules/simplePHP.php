@@ -111,8 +111,10 @@ class simplePHP extends util {
 		} else {
 			$keys = $control->_actionStart();
 		}
-        $keys['header_base'] = "<base href=\"http://".$_SERVER['HTTP_HOST']."\">";
-
+        if (strpos($keys['tophead'], '<head>') || strpos($keys['topheader'], '<head>')) {
+            str_replace('<head>', "<head> <base href=\"http://".$_SERVER['HTTP_HOST']."\">", $keys['tophead']);
+            str_replace('<head>', "<head> <base href=\"http://".$_SERVER['HTTP_HOST']."\">", $keys['topheader']);
+        }
         #app keys
 
         $html = ($page != '') ? $this->applyKeys($page,$keys) : 'Template not found or empty';
