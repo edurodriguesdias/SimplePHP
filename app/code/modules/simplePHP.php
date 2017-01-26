@@ -111,10 +111,7 @@ class simplePHP extends util {
 		} else {
 			$keys = $control->_actionStart();
 		}
-        if (strpos($keys['tophead'], '<head>') || strpos($keys['topheader'], '<head>')) {
-            str_replace('<head>', "<head> <base href=\"http://".$_SERVER['HTTP_HOST']."\">", $keys['tophead']);
-            str_replace('<head>', "<head> <base href=\"http://".$_SERVER['HTTP_HOST']."\">", $keys['topheader']);
-        }
+        $keys['http_host'] = $_SERVER['HTTP_HOST'];
         #app keys
 
         $html = ($page != '') ? $this->applyKeys($page,$keys) : 'Template not found or empty';
@@ -217,8 +214,14 @@ class simplePHP extends util {
      * */
     public function redirect($link, $status="", $title="", $message="") {
         if ( $status != "" ) {
-            $_SESSION['toast']['status'] = $status;
-            $_SESSION['toast']['title'] = $title;
+
+            /********
+                ToDo:
+                    - Adicionar método em forma de array, onde serão passados os parâmetros que serão exibidos no
+            ********/
+            
+            $_SESSION['toast']['status']  = $status;
+            $_SESSION['toast']['title']   = $title;
             $_SESSION['toast']['message'] = $message;
         }
         header('location:' . $link);
