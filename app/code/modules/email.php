@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * Project: SimplePHP Framework
-	 * 
+	 *
 	 * @copyright Alphacode  www.alphacode.com.br
 	 * @author Rafael Franco <simplephp@alphacode.com.br>
 	 */
@@ -12,12 +12,10 @@
 	 * @package email
 	 * @author Rafael Franco
 	 **/
-	
 	include_once("class.smtp.php");
 	include_once("class.phpmailer.php");
 
-	class email
-	{
+	class email{
 
 		public $smtp_host;
         public $smtp_username;
@@ -35,10 +33,11 @@
 		* @param <int> $get_attributes
 		* @return <array >
 		*/
-		public function send($email,$fromEmail,$subject,$html,$keys = array(),$fromName = '') {
+		public function send( $email, $fromEmail, $subject, $html, $keys = array(), $fromName = '' ){
 
 			$mail = new PHPMailer();
             $mail->IsSMTP(); // telling the class to use SMTP
+			$mail->CharSet = 'UTF-8';
             $mail->Host = $this->smtp_host; // SMTP server
             $mail->SMTPDebug = 0; // enables SMTP debug information (for testing)
             $mail->SMTPAuth = true; // enable SMTP authentication
@@ -51,15 +50,14 @@
 			}
 
             $mail->SetFrom($fromEmail, $fromName);
-            
+
 			$mail->Subject = utf8_decode($subject);
-            
+
 			$html = $this->applyKeys($html,$keys);
 
             $mail->MsgHTML($html);
             $mail->AddAddress($email);
             $mail->Send();
-
 	    }
 
 		/**
@@ -77,5 +75,6 @@
 			}
 			return $html;
 		}
+
 	}
 ?>
