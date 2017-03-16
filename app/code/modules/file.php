@@ -39,12 +39,15 @@
 			return $to;
 		}
 		
-		public function uploadFile($file,$path) {
+		public function uploadFile($file,$path,$name="") {
 		
 			$f = explode('.',$file['name']);
 			$ext = $f[count($f)-1];
 			 
-			$name = md5(time()).rand(0,1000).'.'.$ext;
+			if ( $name == "" ) {
+				$name = md5(time()).rand(0,1000).'.'.$ext;
+			}
+			
 			move_uploaded_file($file["tmp_name"], $path.$name);
 			
 			return $name;
@@ -57,11 +60,11 @@
 		public function prepare($path, $filename) {
 			header('Content-Type: application/octet-stream');
 		   header('Content-Disposition: attachment; filename='.$filename);
-		   header('Charset: UTF-8');
+		   // header('Charset: ANSI');
 		   header('Expires: 0');
 		   header('Cache-Control: must-revalidate');
 		   header('Pragma: public');
 		   readfile($path.$filename);	
-		}		
+		}
 	}
 ?>
