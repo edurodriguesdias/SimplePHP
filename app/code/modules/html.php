@@ -41,12 +41,17 @@
 		{
 			$return = '';
          if($selectOption == 1) {
-				$return .= "<option value=\"0\">$selectLabel</option>\n";
+         		if ($selected == 0) {
+					$return .= "<option selected value=\"0\">$selectLabel</option>\n";
+         		} else {
+					$return .= "<option value=\"0\">$selectLabel</option>\n";
+         		}
 			}   
 
 			if(is_array($data)){
 				foreach($data as $id => $value) {
-					if( $selected == $id ) {
+					// pre($selected);
+					if( $selected === $id ) {
 						$return .= "<option selected value=\"$id\">$value</option>\n";
 					} else {
 						$return .= "<option value=\"$id\">$value</option>\n";
