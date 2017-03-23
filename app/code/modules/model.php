@@ -181,6 +181,9 @@ class model {
                         } else if (substr(trim($key), 0, 1) == '>') {
                                 $key = str_replace('>', '', $key);
                                 $sql .= "AND $key > $value ";
+                        } else if (substr(trim($key), 0, 3) == 'sql') {
+                                $key = str_replace('sql', '', $key);
+                                $sql .= " $value ";
                         } else {
                                 if (is_string($value)) {
                                         $sql .= "AND $key = '$value' ";
