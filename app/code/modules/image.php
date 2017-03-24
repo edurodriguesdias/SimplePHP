@@ -32,8 +32,6 @@
             if ($extension == 'gif') {
                 $pic = imagecreatefromgif($original);
             }
-            $maiorLado = 250;
-            $qualidade = 80;
 
             if ($pic) {
 				$width_old = imagesx($pic);
