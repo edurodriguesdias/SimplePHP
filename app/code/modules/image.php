@@ -18,50 +18,54 @@
 		{
 			
 		}
-		public function reduceImage($original) {
-                 $ext = explode('.', $original);
-                 $extension = strtolower($ext[(count($ext)-1)]);
 
-                  if($extension == 'png') {
-                        $pic = imagecreatefrompng($original);
-                 }
-                 if(($extension == 'jpg') or ($extension == 'jpeg')) {
-                        $pic = imagecreatefromjpeg($original);
-                 }
-                 if($extension == 'gif')  {
-                        $pic = imagecreatefromgif($original);
-                 }
-                $maiorLado = 250;
-                $qualidade = 80;
+		public function reduceImage($original,$maiorLado = 250,$qualidade = 80) {
+            $ext = explode('.', $original);
+            $extension = strtolower($ext[(count($ext)-1)]);
 
-                if ($pic) {
-		$width_old = imagesx($pic);
-		$height_old = imagesy($pic);
-		$width = imagesx($pic);
-		$height = imagesy($pic);
+            if ($extension == 'png') {
+                $pic = imagecreatefrompng($original);
+            }
+            if (($extension == 'jpg') or ($extension == 'jpeg')) {
+                $pic = imagecreatefromjpeg($original);
+            }
+            if ($extension == 'gif') {
+                $pic = imagecreatefromgif($original);
+            }
+            $maiorLado = 250;
+            $qualidade = 80;
 
-		if( $width > $maiorLado ){
-			$height = ($maiorLado / $width) * $height;
-			$width = $maiorLado;
-		}
-		if( $height > $maiorLado ){
-			$width = ($maiorLado / $height) * $width;
-			$height = $maiorLado;
-		}
-					$thumb = imagecreatetruecolor($width, $height) or die ("Can't create Image!");
-					imagecopyresampled($thumb, $pic, 0, 0, 0, 0, $width, $height, $width_old, $height_old);
+            if ($pic) {
+				$width_old = imagesx($pic);
+				$height_old = imagesy($pic);
+				$width = imagesx($pic);
+				$height = imagesy($pic);
 
-                         if($extension == 'png') {
-                                imagepng($thumb, $original);
-                         }
-                         if(($extension == 'jpg') or ($extension == 'jpeg')) {
-                                ImageJPEG ($thumb, $original, $qualidade);
-                         }
-                         if($extension == 'gif')  {
-                               imagegif($thumb, $original);
-                         }
-	}
+				if ($width > $maiorLado) {
+					$height = ($maiorLado / $width) * $height;
+					$width = $maiorLado;
+				}
 
+				if ($height > $maiorLado) {
+					$width = ($maiorLado / $height) * $width;
+					$height = $maiorLado;
+				}
+
+				$thumb = imagecreatetruecolor($width, $height) or die ("Can't create Image!");
+				imagecopyresampled($thumb, $pic, 0, 0, 0, 0, $width, $height, $width_old, $height_old);
+
+                if ($extension == 'png') {
+                    $return = imagepng($thumb, $original);
+                }
+                if (($extension == 'jpg') or ($extension == 'jpeg')) {
+                    $return = imagejpeg($thumb, $original, $qualidade);
+                }
+                if ($extension == 'gif') {
+                    $return = imagegif($thumb, $original);
+                }
+			}
+
+			return $return;
         }
 	
 		public function createThumb($original,$maiorLado = 100) {
