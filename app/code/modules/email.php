@@ -57,7 +57,11 @@
 
             $mail->MsgHTML($html);
             $mail->AddAddress($email);
-            $mail->Send();
+            if ( $mail->Send() ) {
+            	return true;
+            } else {
+            	return false;
+            }
 	    }
 
 		/**
