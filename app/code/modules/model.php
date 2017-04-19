@@ -41,21 +41,24 @@ class model {
      * @param $function_value string funcão para aplicação no valor : exemplo strtoupper
      */
     public function getList($table, $key='id', $value='name', $filters='', $function_key='_void', $function_value='_void', $orderby='') {
-        if ( $orderby != '' ) {
-            $data = $this->getData($table, "a.$key,a.$value", $filters, '', $orderby );
+        $orderby = ($orderby == '') ? 'a.'.$value.' asc' : $orderby;
+
+        $data = $this->getData($table, "a.$key,a.$value", $filters, '', $orderby);
+
+        if ($data[0]['result'] == 'empty') {
+            $return['result'] = 'empty';
         } else {
-            $data = $this->getData($table, "a.$key,a.$value", $filters, '', "a.$value asc");
+            foreach ($data as $item) {
+                if ($function_key != '_void') {
+                    $item[$key] = $function_key($item[$key]);
+                }
+                if ($function_value != '_void') {
+                    $item[$value] = $function_key($item[$value]);
+                }
+                $return[$item[$key]] = $item[$value];
+            }
         }
 
-        foreach ($data as $item) {
-            if ($function_key != '_void') {
-                $item[$key] = $function_key($item[$key]);
-            }
-            if ($function_value != '_void') {
-                $item[$value] = $function_key($item[$value]);
-            }
-            $return[$item[$key]] = $item[$value];
-        }
         return $return;
     }
 
