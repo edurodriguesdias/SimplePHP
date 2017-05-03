@@ -2,7 +2,7 @@
 
 /**
  * Project: SimplePHP Framework
- * 
+ *
  * @copyright Alphacode  www.alphacode.com.br
  * @author Rafael Franco <simplephp@alphacode.com.br>
  */
@@ -14,7 +14,7 @@
  * @author Rafael Franco
  * */
 class simplePHP extends util {
-   
+
     public $version = '0.0';
     private static $controler;
     private static $action;
@@ -24,7 +24,10 @@ class simplePHP extends util {
 
         #get the controler
         $url_parameter[1] = str_replace('-', '', $this->getParameter(1));
-        self::$controler  = ($url_parameter[1] == '') ? 'hotsite' : $url_parameter[1] ;
+        $controller_name = explode('?', $url_parameter[1]);
+
+        self::$controler  = ($controller_name[0] == '') ? 'hotsite' : $controller_name[0] ;
+
 
         #get the action
         $url_parameter[2] = str_replace('-', '', $this->getParameter(2));
@@ -35,7 +38,7 @@ class simplePHP extends util {
     /**
      * getParameter get the url parameters
      *
-     * @return string		
+     * @return string
      * */
     public function getParameter($position) {
         #get the url and explode to get positions
@@ -53,15 +56,15 @@ class simplePHP extends util {
      * @return void
      * */
     public function loadPage() {
-        
-        #init vars 
+
+        #init vars
         $controler =  self::$controler;
         $action = self::$action;
 
         #init keys
         $keys = array();
         $keys['action'] = self::$action;
-		$keys['controler'] = $controler; 
+		$keys['controler'] = $controler;
 
         #load global vars
         global $template;
@@ -71,9 +74,9 @@ class simplePHP extends util {
         } else {
 
             if(file_exists('../control/' . $controler . '.php')) {
-                include '../control/' . $controler . '.php';    
+                include '../control/' . $controler . '.php';
             } else {
-                include '../control/hotsite.php';  
+                include '../control/hotsite.php';
                 $action = $controler ;
                 $controler = 'hotsite';
             }
@@ -84,26 +87,26 @@ class simplePHP extends util {
         if($controler != 'master') {
             if(is_file('../view/' . $controler . '/' . $action . '.html')) {
                 	$page = file_get_contents('../view/' . $controler . '/' . $action . '.html');
-                } else {   
+                } else {
 					#if have an default template, load them
 	 				if(is_file('../view/' . $controler . '/default.html')) {
-						$page = file_get_contents('../view/' . $controler . '/default.html');  
-					}  	          
+						$page = file_get_contents('../view/' . $controler . '/default.html');
+					}
 				}
         } else {
             if(is_file(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/' . $action . '.html')) {
-                $page = file_get_contents(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/' . $action . '.html');    
+                $page = file_get_contents(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/' . $action . '.html');
             } else {
-	            $page = file_get_contents(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/default.html');    
-			}   
-        }       
+	            $page = file_get_contents(SIMPLEPHP_PATH.'app/code/view/' . $controler . '/default.html');
+			}
+        }
 
-        
-        
 
-        #call the controller                        
+
+
+        #call the controller
         $control = new $controler();
-        $action = "_action".  ucfirst($action); 
+        $action = "_action".  ucfirst($action);
         $keys = array();
 
 		if(method_exists($control,$action)) {
@@ -118,9 +121,9 @@ class simplePHP extends util {
 
         #print the page
         echo $html;
-        
-        
-        
+
+
+
     }
 
     /**
@@ -142,7 +145,7 @@ class simplePHP extends util {
     /**
      * @global array $keys
      * @param type $key
-     * @param type $value 
+     * @param type $value
      */
     public function setKey($key, $value) {
         global $keys;
@@ -163,7 +166,7 @@ class simplePHP extends util {
             if($local) {
                 include '../control/' . $moduleName . '.php';
             } else {
-                include SIMPLEPHP_PATH.'app/code/modules/' . $moduleName . '.php';    
+                include SIMPLEPHP_PATH.'app/code/modules/' . $moduleName . '.php';
             }
         }
         if($param == '') {
@@ -171,11 +174,11 @@ class simplePHP extends util {
         } else {
             return new $moduleName($param);
         }
-        
+
     }
 
     /**
-     * sucess function 
+     * sucess function
      * @param <string> $message
      * @param <string> $url
      * @return void
@@ -189,7 +192,7 @@ class simplePHP extends util {
 
 
     /**
-     * showError function 
+     * showError function
      * @param <string> $message
      * @param <string> $url
      * @return void
@@ -219,7 +222,7 @@ class simplePHP extends util {
                 ToDo:
                     - Adicionar método em forma de array, onde serão passados os parâmetros que serão exibidos no
             ********/
-            
+
             $_SESSION['toast']['status']  = $status;
             $_SESSION['toast']['title']   = $title;
             $_SESSION['toast']['message'] = $message;
@@ -234,15 +237,15 @@ class simplePHP extends util {
      * @return array
      * */
     public function includeHTML($path) {
-        $return = "<!-- Start: $path -->";                        
+        $return = "<!-- Start: $path -->";
 		if(is_file($path)) {
-			 $return .= file_get_contents($path);    
+			 $return .= file_get_contents($path);
 		}
         $return .= "
 		<!-- End: $path -->";
         #return value keys to replace in html
         return $return;
-    }  
+    }
 }
 
 ?>
