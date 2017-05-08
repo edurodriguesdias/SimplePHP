@@ -40,10 +40,11 @@ class model {
      * @param $function_key string funcão para aplicação na chave : exemplo strtoupper
      * @param $function_value string funcão para aplicação no valor : exemplo strtoupper
      */
-    public function getList($table, $key='id', $value='name', $filters='', $function_key='_void', $function_value='_void', $orderby='') {
+    public function getList($table, $key='id', $value='name', $filters='', $function_key='_void', $function_value='_void', $orderby='',$groupby='') {
         $orderby = ($orderby == '') ? 'a.'.$value.' asc' : $orderby;
+        $groupby = ($groupby == '') ? '' : 'a.'.$groupby;
 
-        $data = $this->getData($table, "a.$key,a.$value", $filters, '', $orderby);
+        $data = $this->getData($table, "a.$key,a.$value", $filters, '', $orderby, '', $groupby);
 
         if ($data[0]['result'] == 'empty') {
             $return['result'] = 'empty';
