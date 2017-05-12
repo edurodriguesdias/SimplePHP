@@ -435,8 +435,15 @@ class model {
      * @param $filters array, array de dados
      * @return <boolean>
      */
-    public function alterData($table, $data, $filter) {
+    public function alterData($table, $data, $filter, $log = false) {
         global $mdb2;
+
+
+        //log 
+        if($log) {
+            $old_data = $this->getData($table,'*',$filter);
+        }
+
 
         $sql = "UPDATE `$table` ";
         extract($data);
@@ -470,6 +477,24 @@ class model {
 
 
         $res = $mdb2->query($sql);
+
+
+
+        if($log) {
+
+            foreach ($data as $key => $value) {
+                if($value != '' && $value != $old_data[0][$key]) {
+                    $datalog['anterior'] = $old_data[0][$key];
+                    $datalog['novo'] = $value;
+                    $datalog['tabela'] = $table;
+                    $datalog['campo'] = $key;
+                    $datalog['usuario_id'] = $_SESSION['usuario_id'];
+
+                    $this->addData('log',$datalog,true);
+                }
+            }
+        }
+
 
         if ($this->debug == 1) {
                 echo "<br><b>$sql</b><br>";
