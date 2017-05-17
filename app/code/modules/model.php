@@ -439,7 +439,7 @@ class model {
         global $mdb2;
 
 
-        //log 
+        //log
         if($log) {
             $old_data = $this->getData($table,'*',$filter);
         }
@@ -489,6 +489,7 @@ class model {
                     $datalog['tabela'] = $table;
                     $datalog['campo'] = $key;
                     $datalog['usuario_id'] = $_SESSION['usuario_id'];
+                    $datalog['registro_id'] = $old_data[0]['id'];
 
                     $this->addData('log',$datalog,true);
                 }
