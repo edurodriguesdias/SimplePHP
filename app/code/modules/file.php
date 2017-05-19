@@ -39,6 +39,8 @@
 			return $to;
 		}
 		
+		// @return: Caso dê erro no upload retorna false,
+		// caso o upload seja feito retorna o nome do arquivo
 		public function uploadFile($file,$path,$name="") {
 		
 			$f = explode('.',$file['name']);
@@ -48,9 +50,13 @@
 				$name = md5(time()).rand(0,1000).'.'.$ext;
 			}
 			
-			move_uploaded_file($file["tmp_name"], $path.$name);
+			$sucesso = move_uploaded_file($file["tmp_name"], $path.$name);
 			
-			return $name;
+			if (!$sucesso) {
+				return false;
+			} else {
+				return $name;
+			}
 		}
 		
 		public function remove($file) {
