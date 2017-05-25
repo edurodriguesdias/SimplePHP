@@ -135,21 +135,21 @@ class model {
         $sql = '';
         if ($filters != '') {
                 foreach ($filters as $key => $value) {
-                       if (substr(trim($key), 0, 2) != 'in') {
+                       if (substr(trim($key), 0, 3) != 'in ') {
                         #$key    = addslashes($key);
                         #$value  = addslashes($value);
                        }
 
                         if (substr_count($key, 'like') == 1) {
 
-                            if (substr(trim($key), 0, 9) == 'likeAfter') {
+                            if (substr(trim($key), 0, 10) == 'likeAfter ') {
                                 $key = str_replace('likeAfter', '', $key);
                                 $sql .= "AND $key like '$value%' ";
                             } else {
-                                if (substr(trim($key), 0, 10) == 'likeBefore') {
+                                if (substr(trim($key), 0, 11) == 'likeBefore ') {
                                     $key = str_replace('likeBefore', '', $key);
                                     $sql .= "AND $key like '%$value' ";
-                                } else if(substr(trim($key), 0, 7) == 'like or'){
+                                } else if(substr(trim($key), 0, 8) == 'like or '){
                                     if (substr(trim($key),-1) == ')') {
                                         $key = str_replace(')', '', $key);
                                         $close =')';
@@ -161,16 +161,16 @@ class model {
                                     $sql .= "AND $key like '%$value%' ";
                                 }
                             }
-                        } else if (substr(trim($key), 0, 2) == 'or') {
+                        } else if (substr(trim($key), 0, 3) == 'or ') {
                                 $key = str_replace('or ', '', $key);
                                 $sql .= "OR $key = '$value' ";
-                        } else if (substr(trim($key), 0, 2) == 'in') {
+                        } else if (substr(trim($key), 0, 3) == 'in ') {
                                 $key = str_replace('in ', '', $key);
                                 $sql .= "AND $key in $value ";
-                        } else if (substr(trim($key), 0, 5) == 'notin') {
+                        } else if (substr(trim($key), 0, 6) == 'notin ') {
                                 $key = str_replace('notin ', '', $key);
                                 $sql .= "AND $key not in $value ";
-                        } else if (substr(trim($key), 0, 3) == 'dif') {
+                        } else if (substr(trim($key), 0, 4) == 'dif ') {
                                 $key = str_replace('dif', '', $key);
                                 $sql .= "AND $key != '$value' ";
                         } else if (substr(trim($key), 0, 2) == '<=') {
