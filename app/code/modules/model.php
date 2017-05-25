@@ -269,8 +269,13 @@ class model {
      * @param $saveIp bool, salvar ip sim ou não
      * @return <array>
      */
-    public function replaceData($table, $data,$saveIp = false) {
+    public function replaceData($table, $data,$saveIp = false,$log = false) {
        global $mdb2;
+
+        //log
+        if($log) {
+            $old_data = $this->getData($table,'*',$filter);
+        }
 
        if($saveIp) {
            $data['ip'] = $_SERVER['REMOTE_ADDR'];
@@ -305,6 +310,22 @@ class model {
        }
 
        $sql .= ");";
+
+       if ($log) {
+            foreach ($data as $key => $value) {
+                if ($value != '' && $value != $old_data[0][$key]) {
+                    $datalog['anterior'] = $old_data[0][$key];
+                    $datalog['novo'] = $value;
+                    $datalog['tabela'] = $table;
+                    $datalog['campo'] = $key;
+                    $datalog['usuario_id'] = $_SESSION['usuario_id'];
+                    $datalog['registro_id'] = $old_data[0]['id'];
+
+                    $this->addData('log',$datalog,true);
+                }
+            }
+        }
+
        if ($this->debug == 1) {
            echo "<br><b>$sql</b><br>";
        }
