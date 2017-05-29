@@ -19,12 +19,14 @@
 			
 		}
 	
-		public function copyFile($source,$to) {
+		public function copyFile($source,$to,$name="") {
 			$file = file_get_contents($source);
 			$ext = explode('.', $source);
 
 			$extension = $ext[(count($ext)-1)];
-			$name = rand(0,1000).time();
+			if ($name == '') {
+				$name = rand(0,1000).time();
+			}
 
 			$arq = fopen($to."/".$name.".".$extension,'a');
 			fwrite($arq,$file);
