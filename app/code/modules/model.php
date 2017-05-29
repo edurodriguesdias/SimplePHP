@@ -156,6 +156,9 @@ class model {
                                     }
                                     $key = str_replace('like or ', '', $key);
                                     $sql .= "OR $key like '%$value%' $close";
+                                } else if (substr(trim($key), 0, 8) == 'notlike ') {
+                                    $key = str_replace('notlike ', '', $key);
+                                    $sql .= "AND $key NOT LIKE '$value' ";
                                 } else{
                                     $key = str_replace('like ', '', $key);
                                     $sql .= "AND $key like '%$value%' ";
