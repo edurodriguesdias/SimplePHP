@@ -485,24 +485,12 @@ class model {
 
         $sql = substr($sql, 0, strlen($sql) - 1);
 
-        $sql .= "WHERE 1=1 ";
-        if (is_array($filter)) {
-                foreach ($filter as $key => $value) {
-                        if (is_string($value)) {
-                                $sql .= "AND `$key` = '$value' ";
-                        } else {
-                                $sql .= "AND `$key` = $value ";
-                        }
-                }
-        }
-
+        $sql .= "WHERE 1 = 1 ";
+        $sql .= $this->makeFilters($filter);
 
         $res = $mdb2->query($sql);
 
-
-
         if($log) {
-
             foreach ($data as $key => $value) {
                 if($value != '' && $value != $old_data[0][$key]) {
                     $datalog['anterior'] = $old_data[0][$key];
