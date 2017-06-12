@@ -170,6 +170,9 @@ class model {
                         } else if (substr(trim($key), 0, 3) == 'in ') {
                                 $key = str_replace('in ', '', $key);
                                 $sql .= "AND $key in $value ";
+                        } else if (substr(trim($key), 0, 3) == 'is ') {
+                                $key = str_replace('is ', '', $key);
+                                $sql .= "AND $key IS $value ";
                         } else if (substr(trim($key), 0, 6) == 'notin ') {
                                 $key = str_replace('notin ', '', $key);
                                 $sql .= "AND $key not in $value ";
