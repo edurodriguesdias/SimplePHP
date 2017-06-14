@@ -71,7 +71,7 @@
         * @param <string> $onclick
         * @param <string> $param
         */
-        private function multiPager($step,$total,$id_param=1,$onclick='goUrl2',$param='') {
+        public function multiPager($step,$total,$id_param=1,$onclick='goUrl2',$param='') {
             
             $param = explode('/', $param);
             $active = $param[$id_param-1];
@@ -97,7 +97,7 @@
                     }
                 }
                 $values['onclick'] = $onclick."('".$currentPage.$param_url."')";
-                $return .= $this->html->span('Anterior',$values);
+                $return .= $this->span('Anterior',$values);
             }
 
             for ($x = 1; $x <= $pages; $x++) {
@@ -115,11 +115,11 @@
                     # current Step
                     if($active == $x) {
                         $values['class'] = 'stepper stepper-active';
-                        $i = $this->html->b($x); 
+                        $i = $this->b($x); 
                     } else {
                         $i = $x;
                     }
-                    $return .= $this->html->span($i,$values);
+                    $return .= $this->span($i,$values);
                 }
             }
 
@@ -135,9 +135,9 @@
                     }
                 }
                 $values['onclick'] = $onclick."('".$currentPage.$param_url."')";
-                $return .= $this->html->span('Pr&oacute;xima', $values);
+                $return .= $this->span('Pr&oacute;xima', $values);
             }
-            $return =  $this->html->div($return,array('id'=>'pager'));
+            $return =  $this->div($return,array('id'=>'pager'));
 
             if ($total <= $step) {
                 $return = '';
