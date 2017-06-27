@@ -45,7 +45,7 @@ class simplePHP extends util {
         $url = explode('/', urldecode($_SERVER['REQUEST_URI']));
 
         $return = (count($url) > $position) ? $url[$position] : '';
-        $return = ($return[0] == '?') ? '' : $return;
+        $return = (@$return[0] == '?') ? '' : $return;
         return $return;
     }
 
