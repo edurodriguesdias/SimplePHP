@@ -16,7 +16,6 @@
 class validator {
 
     //variavel por definir se o sistema utiliza o conceito de contexto
-    public $context = false;
     
     public function __construct(){
 

@@ -523,7 +523,28 @@ class model {
     }
 
     /**
-    * Busca as colunas de uma tabela
+    * Retorna as tabelas de uma base
+    * @param @column string
+    * @return array
+    **/
+    public function getTables($database) {
+        global $mdb2;
+
+        $sql = "SHOW tables FROM $database";
+        if ($this->debug == 1) {
+            echo "<br><b>$sql</b><br>";
+        }
+
+        $res = $mdb2->loadModule('Extended')->getAll($sql, null, array(), '', MDB2_FETCHMODE_ASSOC);
+
+        if (count($res) == 0) {
+            $res[0]['result'] = 'empty';
+        }
+        return $res;
+    }
+
+    /**
+    * Retorna as colunas de uma tabela
     * @param @column string
     * @return array
     **/
