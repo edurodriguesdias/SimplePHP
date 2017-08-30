@@ -44,7 +44,7 @@ class model {
         $orderby = ($orderby == '') ? 'a.'.$value.' asc' : $orderby;
         $groupby = ($groupby == '') ? '' : 'a.'.$groupby;
 
-        $data = $this->getData($table, "a.$key,a.$value", $filters, '', $orderby, $join, $groupby);
+        $data = $this->getData($table, "$key,$value", $filters, '', $orderby, $join, $groupby);
 
         if ($data[0]['result'] == 'empty') {
             $return['result'] = 'empty';
