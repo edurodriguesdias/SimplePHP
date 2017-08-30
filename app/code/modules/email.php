@@ -33,19 +33,31 @@ class email{
 	* @param <int> $get_attributes
 	* @return <array >
 	*/
-	public function send( $email, $fromEmail, $subject, $html, $keys = array(), $fromName = '', $debug = false ){
+	public function send( $email, $fromEmail, $subject, $html, $keys = array(), $fromName = '', $debug = false, $attachments = array() ){
 
-		$enbDebug = ($debug) ? 1 : 0;
+		$enableDebug = ($debug === false) ? 0 : 1;
 
 		$mail = new PHPMailer();
 		$mail->IsSMTP(); // telling the class to use SMTP
 		$mail->CharSet = 'UTF-8';
 		$mail->Host = $this->smtp_host; // SMTP server
-		$mail->SMTPDebug = $enbDebug; // enables SMTP debug information (for testing)
+		$mail->SMTPDebug = $enableDebug; // enables SMTP debug information (for testing)
 		$mail->SMTPAuth = true; // enable SMTP authentication
 		$mail->Port = $this->smtp_port; // set the SMTP port for the service server
 		$mail->Username = $this->smtp_username; // account username
 		$mail->Password = $this->smtp_password; // account password
+
+		if(isset($attachments)){
+			if(!empty($attachments)){
+				if(is_array($attachments)){
+					foreach ($attachments as $attachment) {
+						$mail->addAttachment($attachment, $attachment['name']);
+					}
+				} else {
+					$mail->addAttachment($attachments, $attachments['name']);
+				}
+			}
+		}
 
 		if($fromName == '') {
 			$fromName = $fromEmail;

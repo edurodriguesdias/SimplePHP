@@ -157,7 +157,7 @@ class simplePHP extends util {
      *
      * @return object
      * */
-    public function loadModule($moduleName,$param='',$local=false) {
+    public function loadModule($moduleName, $param='', $local=false) {
         global $action;
 
         ##test if module is not loaded
