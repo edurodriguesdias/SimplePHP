@@ -16,53 +16,63 @@
 	{
 		public function __construct() 
 		{
-	
+
 		}
-		public function pager($step,$total,$active=1,$onclick='',$moreParam='') {
+		public function pager($step,$total,$active=1,$onclick='',$moreParam='', $dynamic='') {
 
              #number of pages
-             $pages = intval($total/$step);
-             $pages = (($pages*$step) == $total) ? $pages : $pages +1;
-             $return = '';
-             
-             $url = explode('/', $_SERVER['REQUEST_URI']);
+			$pages = intval($total/$step);
+			$pages = (($pages*$step) == $total) ? $pages : $pages +1;
+			$return = '<input type="hidden" class="step-id" value="">';
 
-             $currentPage = '/'.$url[1].'/'.$url[2];
+			$url = explode('/', $_SERVER['REQUEST_URI']);
+
+			$currentPage = '/'.$url[1].'/'.$url[2];
              #before
-              if(($active!=1)) {
-                 $values['class'] = 'stepper-before';
-                 $values['onclick'] = $onclick."(".($active-1). ",'$currentPage','$moreParam')";
-                 $return .= $this->span('Anterior',$values);
-             }
+			if ( $dynamic == '' ) {
+				if(($active!=1)) {
+					$values['class'] = 'stepper-before';
+					$values['onclick'] = $onclick."(".($active-1). ",'$currentPage','$moreParam')";
+					$return .= $this->span('Anterior',$values);
+				}
+			}
 
-             for($x = 1; $x<= $pages;$x++) {
-                 if( ($x >= ($active-2)) && ($x<($active+3)  or ($x < 6)  )) {
-                         $values['class'] = 'stepper';
-                         $values['onclick'] = $onclick."($x,'$currentPage', '$moreParam')";
-                         #current Step
-                         if($active == $x) {
-                              $values['class'] = 'stepper stepper-active';
-                             $i = $this->b($x); 
-                         } else {
-                             $i = $x;
-                         }
-                         $return .= $this->span($i,$values);
-                 }
-             }
+			for($x = 1; $x<= $pages;$x++) {
+				if( ($x >= ($active-2)) && ($x<($active+3)  or ($x < 6)  )) {
+					$values['class'] = 'stepper';
+					if ( $dynamic == '' ) {
+						$values['onclick'] = $onclick."($x,'$currentPage', '$moreParam')";
+					} else {
+						$values['onclick'] = $onclick;
+					}
+                    #current Step
+					if($active == $x) {
+                            $values['class'] = 'stepper stepper-active';
+                            $values['data-step'] = $x;
+                            $i = $this->b($x);
+                        } else {
+                            $values['data-step'] = $x;
+                        	$i = $x;
+                        }
+                        $return .= $this->span($i,$values);
+                    }
+                }
 
-             #next
-             if(($active+1) <= $pages) {
-                 $values['class'] = 'stepper-next';
-                 $values['onclick'] = $onclick."(".($active+1). ",'$currentPage','$moreParam')";
-                 $return .= $this->span('Pr&oacute;xima', $values);
-             }
-              $return =  $this->div($return,array('id'=>'pager'));
+                #next
+                if ( $dynamic == '' ) {
+                	if(($active+1) <= $pages) {
+                		$values['class'] = 'stepper-next';
+                		$values['onclick'] = $onclick."(".($active+1). ",'$currentPage','$moreParam')";
+                		$return .= $this->span('Pr&oacute;xima', $values);
+                	}
+                }
+                $return =  $this->div($return,array('id'=>'pager'));
 
-              if($total <= $step) {
-                  $return = '';
-              }
-              return $return;
-         }
+                if($total <= $step) {
+                	$return = '';
+                }
+                return $return;
+            }
 
         /* MULTIPAGER - DUAS OU MAIS PAGINAÇÕES NA MESMA TELA
         * @param <int> $step
@@ -72,78 +82,78 @@
         * @param <string> $param
         */
         public function multiPager($step,$total,$id_param=1,$onclick='goUrl2',$param='') {
-            
-            $param = explode('/', $param);
-            $active = $param[$id_param-1];
 
-            $return = '';
+        	$param = explode('/', $param);
+        	$active = $param[$id_param-1];
 
-            $url = explode('/',$_SERVER['REQUEST_URI']);
-            $currentPage = '/'.$url[1].'/'.$url[2];
+        	$return = '';
+
+        	$url = explode('/',$_SERVER['REQUEST_URI']);
+        	$currentPage = '/'.$url[1].'/'.$url[2];
 
             # number of pages
-            $pages = intval($total/$step);
-            $pages = (($pages*$step) == $total) ? $pages : $pages + 1;
+        	$pages = intval($total/$step);
+        	$pages = (($pages*$step) == $total) ? $pages : $pages + 1;
 
             # before
-            if ($active > 1) {
-                $values['class'] = 'stepper-before';
-                $param_url = '';
-                foreach ($param as $key => $item) {
-                    if (($id_param-1) == $key) {
-                        $param_url .= '/'.($active-1);
-                    } else {
-                        $param_url .= '/'.$param[$key];
-                    }
-                }
-                $values['onclick'] = $onclick."('".$currentPage.$param_url."')";
-                $return .= $this->span('Anterior',$values);
-            }
+        	if ($active > 1) {
+        		$values['class'] = 'stepper-before';
+        		$param_url = '';
+        		foreach ($param as $key => $item) {
+        			if (($id_param-1) == $key) {
+        				$param_url .= '/'.($active-1);
+        			} else {
+        				$param_url .= '/'.$param[$key];
+        			}
+        		}
+        		$values['onclick'] = $onclick."('".$currentPage.$param_url."')";
+        		$return .= $this->span('Anterior',$values);
+        	}
 
-            for ($x = 1; $x <= $pages; $x++) {
-                if (($x >= ($active-2)) && ($x < ($active + 3) or ($x < 6))) {
-                    $values['class'] = 'stepper';
-                    $param_url = '';
-                    foreach ($param as $key => $item) {
-                        if (($id_param-1) == $key) {
-                            $param_url .= '/'.$x;
-                        } else {
-                            $param_url .= '/'.$param[$key];
-                        }
-                    }
-                    $values['onclick'] = $onclick."('".$currentPage.$param_url."')";
+        	for ($x = 1; $x <= $pages; $x++) {
+        		if (($x >= ($active-2)) && ($x < ($active + 3) or ($x < 6))) {
+        			$values['class'] = 'stepper';
+        			$param_url = '';
+        			foreach ($param as $key => $item) {
+        				if (($id_param-1) == $key) {
+        					$param_url .= '/'.$x;
+        				} else {
+        					$param_url .= '/'.$param[$key];
+        				}
+        			}
+        			$values['onclick'] = $onclick."('".$currentPage.$param_url."')";
                     # current Step
-                    if($active == $x) {
-                        $values['class'] = 'stepper stepper-active';
-                        $i = $this->b($x); 
-                    } else {
-                        $i = $x;
-                    }
-                    $return .= $this->span($i,$values);
-                }
-            }
+        			if($active == $x) {
+        				$values['class'] = 'stepper stepper-active';
+        				$i = $this->b($x); 
+        			} else {
+        				$i = $x;
+        			}
+        			$return .= $this->span($i,$values);
+        		}
+        	}
 
             # next
-            if (($active + 1) <= $pages) {
-                $values['class'] = 'stepper-next';
-                $param_url = '';
-                foreach ($param as $key => $item) {
-                    if (($id_param-1) == $key) {
-                        $param_url .= '/'.($active+1);
-                    } else {
-                        $param_url .= '/'.$param[$key];
-                    }
-                }
-                $values['onclick'] = $onclick."('".$currentPage.$param_url."')";
-                $return .= $this->span('Pr&oacute;xima', $values);
-            }
-            $return =  $this->div($return,array('id'=>'pager'));
+        	if (($active + 1) <= $pages) {
+        		$values['class'] = 'stepper-next';
+        		$param_url = '';
+        		foreach ($param as $key => $item) {
+        			if (($id_param-1) == $key) {
+        				$param_url .= '/'.($active+1);
+        			} else {
+        				$param_url .= '/'.$param[$key];
+        			}
+        		}
+        		$values['onclick'] = $onclick."('".$currentPage.$param_url."')";
+        		$return .= $this->span('Pr&oacute;xima', $values);
+        	}
+        	$return =  $this->div($return,array('id'=>'pager'));
 
-            if ($total <= $step) {
-                $return = '';
-            }
-            
-            return $return;
+        	if ($total <= $step) {
+        		$return = '';
+        	}
+
+        	return $return;
         }
 
 		/**
@@ -164,4 +174,4 @@
 		}
 		
 	}
-?>
+	?>
