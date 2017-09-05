@@ -18,20 +18,24 @@
 			
 		}
 
-		public function export($data,$filename = 'arquivo.csv') 
+		public function export($data, $filename = 'arquivo.csv', $ucwords='') 
 		{
 			#headers
 			$this->prepare($filename);
 			foreach ($data[0] as $key => $value) {
-				echo utf8_decode($key) .";";
+				if ( $ucwords == '' ) {
+					echo utf8_decode($key) .";";
+				} else {
+					echo utf8_decode(ucwords($key)) .";";
+				}
 			}
 			echo "\n";
-		   	foreach ($data as $item) {
-		   		foreach ($item as $key => $value) {
-		   			echo utf8_decode($value) .';';
-		   		}
-		   		echo "\n";
-		   	}
+	   	foreach ($data as $item) {
+	   		foreach ($item as $key => $value) {
+	   			echo utf8_decode($value) .';';
+	   		}
+	   		echo "\n";
+	   	}
 		}
 
 		private function prepare($filename) {
