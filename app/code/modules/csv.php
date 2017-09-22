@@ -1,7 +1,7 @@
 <?php
    	/**
 	 * Project: SimplePHP Framework
-	 * 
+	 *
 	 * @author Rafael Franco <www.alphacode.com.br>
 	 */
 
@@ -13,16 +13,16 @@
 	 **/
 	class csv
 	{
-		public function __construct() 
+		public function __construct()
 		{
-			
+
 		}
 
-		public function export($data, $filename = 'arquivo.csv', $ucwords='') 
+		public function export($data, $filename = 'arquivo.csv', $ucwords='',$reference = 0)
 		{
 			#headers
 			$this->prepare($filename);
-			foreach ($data[0] as $key => $value) {
+			foreach ($data[$reference] as $key => $value) {
 				if ( $ucwords == '' ) {
 					echo utf8_decode($key) .";";
 				} else {
