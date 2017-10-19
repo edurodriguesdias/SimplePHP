@@ -331,5 +331,26 @@
 	  return $retorno;
 	}
 
+	// Retorna o nome por extenso do banco, tomando por base o seu codigo, sigla ou apelido
+	function identificarBanco($banco) {
 
+        if ( $banco == "001" || $banco == 'bb' ) {
+            $retorno = "Banco do Brasil";
+        } 
+        if ( $banco == "237" || $banco == 'bra' ) {
+            $retorno = "Bradesco";
+        }
+        if ( $banco == "341" || $banco == 'ita' || $banco == 'itau' ) {
+            $retorno = "Itaú";
+        }
+        if ( $banco == "033" || $banco == 'san' || $banco == 'santander' ) {
+            $retorno = "Santander";
+        }
+        if ( $banco == "104" || $banco == 'cef' || $banco == 'caixa' ) {
+            $retorno = "Caixa Econômica Federal";
+        }
+
+        return $retorno;
+        exit;
+	}
 ?>
