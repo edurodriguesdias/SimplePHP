@@ -78,7 +78,7 @@ class model {
     * @param $join string or array lista de joins
     * @param $groupby string
     */
-    public function getData($table, $values='a.*', $filters = '', $limits='', $orderby='a.ID DESC', $join='', $groupby='') {
+    public function getData($table, $values='a.*', $filters = '', $limits='', $orderby='a.ID DESC', $join='', $groupby='',$having = '') {
 
         global $mdb2;
 
@@ -104,6 +104,10 @@ class model {
 
         if ($groupby != '') {
             $sql .= " group by $groupby ";
+        }
+
+        if ($having != '') {
+                $sql .= " having $having ";
         }
 
         $sql .= " ORDER BY " . $orderby . " ";
