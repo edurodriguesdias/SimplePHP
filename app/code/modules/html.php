@@ -309,7 +309,16 @@
 			return $this->tag('textArea', $value,$attributes);
 		}
 
-
+		/**
+		* button function, create an button
+		*
+		* @return string
+		*
+		**/
+		public function button($content='',$attributes='')
+		{
+			return $this->tag('button',$content,$attributes);
+		}
 
 
 } // END class html
